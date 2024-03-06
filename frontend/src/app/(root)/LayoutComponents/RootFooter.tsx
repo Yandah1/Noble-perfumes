@@ -1,9 +1,9 @@
 "use client"
 import React from 'react';
-import Agreement from '@/components/Agreement/page';
+import Footer from '@/components/Footer/page';
 
 export default function RootFooter() {
   return (
-    <Agreement />
+    <Footer />
   );
 }

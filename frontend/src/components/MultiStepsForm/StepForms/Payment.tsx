@@ -1,5 +1,6 @@
 "use client"
 
+import PayFast from '@/components/PayFast/page';
 import { setCurrentStep } from '@/redux/slices/stepFormSlice'
 import { Button } from 'antd'
 import React from 'react'
@@ -13,7 +14,12 @@ export default function Payment() {
   console.log(formData)
   return (
     <div>
-      <Button type='primary' danger onClick={() => dispatch(setCurrentStep(currentStep - 1))}>Back</Button>
+      <div>Order overview</div>
+      <div className='flex'>
+        
+        <Button type='primary' danger onClick={() => dispatch(setCurrentStep(currentStep - 1))}>Back</Button>
+        <span className='m-1'><PayFast /></span>
+      </div>
     </div>
   )
 }

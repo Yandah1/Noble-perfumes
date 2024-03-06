@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-export default function Agreement() {
+export default function Footer() {
   return (
     <div className="border-t border-gray-400">
       <div className="h-6 my-5">
