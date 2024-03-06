@@ -1,9 +1,19 @@
-const expressJwt = require('express-jwt');
-const secret = process.env.secret;
+const jwt = require('jsonwebtoken');
 
-const authJwt = expressJwt({
-        secret: secret,
-        algorithms: ['HS256']
-    });
+function authenticateToken(req, res, next) {
+  try {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
-module.exports = authJwt;
+    if (!token) {
+      return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    const decoded = jwt.verify(token, process.env.secret);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(403).json({ success: false, message: 'Forbidden' });
+  }}
+
+module.exports = authenticateToken;

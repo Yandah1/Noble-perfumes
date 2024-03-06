@@ -127,7 +127,4 @@ router.get(`/get/featured/:count`, async (req, res) =>{
     res.send(products);
 })
 
-
-
-
 module.exports = router;

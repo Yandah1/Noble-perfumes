@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const authenticateToken = require('../helpers/jwt');
 
 router.get(`/`, async (req, res) =>{
     const userList = await User.find().select('-passwordHash');
@@ -35,7 +36,7 @@ router.post('/', async (req, res) => {
         let user = new User({
             name: req.body.name,
             email: req.body.email,
-            passwordHash: bcrypt.hashSync(password, 10), // Hash the password
+            passwordHash: bcrypt.hashSync(req.body.password, 10), // Hash the password
             phone: req.body.phone,
             isAdmin: req.body.isAdmin,
             street: req.body.street,
@@ -145,7 +146,7 @@ router.post('/login', async (req,res) => {
 })
 
 router.delete('/:id', (req, res)=>{
-    User.findByIdAndRemove(req.params.id).then(user =>{
+    User.findByIdAndDelete(req.params.id).then(user =>{
         if(user) {
             return res.status(200).json({success: true, message: 'the user is deleted!'})
         } else {

@@ -4,7 +4,10 @@ const mongoose = require("mongoose");
 const morgan = require('morgan');
 const cors = require('cors'); 
 const Product = require("./models/product");
-//const authJwt = require('./helpers/jwt');
+const jwt = require('jsonwebtoken');
+const errorHandler = require('./helpers/error-handler');
+//const protectedRoute = require('./routes/protected');
+//const authenticateToken = require('./helpers/jwt');
 
 // Create Express app
 const app = express();
@@ -17,13 +20,22 @@ app.options('*', cors());
 app.use(express.json()); // Parse JSON in the request body
 app.use(express.urlencoded({ extended: true })); 
 app.use(morgan('tiny'));
-//app.use(authJwt()); // Use authJwt middleware
+//app.use('/api', protectedRoute);
+app.use(errorHandler);
+//app.use(authenticateToken); // Use authJwt middleware
+
+
+//app.get('/protected', authenticateToken, (req, res) => {
+  // Access the authenticated user information from req.user
+ // const user = req.user;
+  // Handle the protected route logic here
+//});
 
 //Routes
 const categoriesRoutes = require('./routes/categories');
 const productsRoutes = require('./routes/products');
 const usersRoutes = require('./routes/users');
-//const ordersRoutes = require('./routes/orders');
+const ordersRoutes = require('./routes/orders');
 
 dotenv.config();
 
@@ -32,7 +44,7 @@ const api = process.env.API_URL;
 app.use(`${api}/categories`, categoriesRoutes);
 app.use(`${api}/products`, productsRoutes);
 app.use(`${api}/users`, usersRoutes);
-//app.use(`${api}/orders`, ordersRoutes);
+app.use(`${api}/orders`, ordersRoutes);
 
 // Connect to MongoDB database
 mongoose

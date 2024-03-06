@@ -1,44 +1,58 @@
-const {Order} = require('../models/order');
-const express = require('express');
+const { Order } = require('../models/order');
 const { OrderItem } = require('../models/order-item');
+const express = require('express');
 const { default: mongoose } = require('mongoose');
 const router = express.Router();
 
+
 const orderSchema = mongoose.Schema({
-    OrderItems: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'OrderItem',
-        required:true
-    }],
-})
+  orderItems: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'OrderItem',
+    required: true
+  }]
+});
 
-router.get(`/`, async (req, res) =>{
-    const orderList = await Order.find().populate('user', 'name').sort({'dateOrdered': -1});
+router.get('/', async (req, res) => {
+  const orderList = await Order.find().populate('user', 'name').sort({ 'dateOrdered': -1 });
 
-    if(!orderList) {
-        res.status(500).json({success: false})
-    } 
-    res.send(orderList);
-})
+  if (!orderList) {
+    res.status(500).json({ success: false });
+  }
+  res.send(orderList);
+});
 
-router.post('/', async (req,res)=>{
-    const password = req.body.password;
-    let user = new User({
-        name: req.body.name,
-        email: req.body.email,
-        passwordHash: bcrypt.hashSync(req.body.password, 10),
-        phone: req.body.phone,
-        isAdmin: req.body.isAdmin,
-        street: req.body.street,
-        apartment: req.body.apartment,
-        zip: req.body.zip,
-        city: req.body.city,
-        country: req.body.country,
-    })
-    user = await user.save();
+router.post('/', async (req, res) => {
+  const orderItemsIds = await Promise.all(req.body.orderItems.map(async (orderItem) => {
+    let newOrderItem = new OrderItem({
+      quantity: orderItem.quantity,
+      product: orderItem.product
+    });
 
-    if(!user)
-    return res.status(400).send('the user cannot be created!')
+    newOrderItem = await newOrderItem.save();
 
-    res.send(user);
-})
+    return newOrderItem._id;
+  }));
+
+  let order = new Order({
+    name: req.body.name,
+    orderItems: orderItemsIds,
+    shippingAddress1: req.body.shippingAddress1,
+    shippingAddress2: req.body.shippingAddress2,
+    city: req.body.city,
+    zip: req.body.zip,
+    country: req.body.country,
+    phone: req.body.phone,
+    status: req.body.status,
+    totalPrice: req.body.totalPrice,
+    user: req.body.user
+  });
+  order = await order.save();
+
+  if (!order)
+    return res.status(400).send('The order cannot be created!');
+
+  res.send(order);
+});
+
+module.exports = router;
