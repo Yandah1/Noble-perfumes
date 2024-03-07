@@ -10,7 +10,7 @@ export default function PayFast() {
         'merchant_key': 'runrf7hq41f3s',
         'return_url': 'http://www.nobleperfumes.store/return',
         'cancel_url': 'http://www.nobleperfumes.store/cancel',
-        'notify_url': 'http://www.nobleperfumes.store/notify',
+        'notify_url': 'http://localhost:3000/api/notify',
         // Buyer details
         'name_first': 'Noble',
         'name_last': 'Malgas',

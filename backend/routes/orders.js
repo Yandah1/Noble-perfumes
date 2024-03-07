@@ -55,4 +55,89 @@ router.post('/', async (req, res) => {
   res.send(order);
 });
 
+router.put('/:id', async (req, res) => {
+    const orderId = req.params.id;
+    const updatedOrder = req.body;
+  
+    const updatedOrderItems = await Promise.all(updatedOrder.orderItems.map(async (orderItem) => {
+      let updatedItem;
+      if (mongoose.Types.ObjectId.isValid(orderItem._id)) {
+        // Existing order item, update it
+        updatedItem = await OrderItem.findByIdAndUpdate(orderItem._id, {
+          quantity: orderItem.quantity,
+          product: orderItem.product
+        }, { new: true });
+      } else {
+        // New order item, create it
+        const newOrderItem = new OrderItem({
+          quantity: orderItem.quantity,
+          product: orderItem.product
+        });
+        updatedItem = await newOrderItem.save();
+      }
+      return updatedItem._id;
+    }));
+  
+    const updatedOrderData = {
+      name: updatedOrder.name,
+      orderItems: updatedOrderItems,
+      shippingAddress1: updatedOrder.shippingAddress1,
+      shippingAddress2: updatedOrder.shippingAddress2,
+      city: updatedOrder.city,
+      zip: updatedOrder.zip,
+      country: updatedOrder.country,
+      phone: updatedOrder.phone,
+      status: updatedOrder.status,
+      totalPrice: updatedOrder.totalPrice,
+      user: updatedOrder.user
+    };
+  
+    const updatedOrderResult = await Order.findByIdAndUpdate(orderId, updatedOrderData, { new: true });
+  
+    if (!updatedOrderResult) {
+      return res.status(400).send('The order cannot be updated!');
+    }
+  
+    res.send(updatedOrderResult);
+  });
+
+  router.delete('/:id', async (req, res) => {
+    const orderId = req.params.id;
+  
+    const deletedOrder = await Order.findByIdAndDelete(orderId);
+  
+    if (!deletedOrder) {
+      return res.status(404).send('The order does not exist!');
+    }
+  
+    // Remove associated order items
+    await OrderItem.deleteMany({ _id: { $in: deletedOrder.orderItems } });
+  
+    res.status(200).json({ success: true, message: 'Order deleted successfully.' });
+  });
+
+  router.get('/get/totalsales', async (req, res)=> {
+    const totalSales= await Order.aggregate([
+        { $group: { _id: null , totalsales : { $sum : '$totalPrice'}}}
+    ])
+
+    if(!totalSales) {
+        return res.status(400).send('The order sales cannot be generated')
+    }
+
+    res.send({totalsales: totalSales.pop().totalsales})
+})
+
+router.get('/get/count', async (req, res) => {
+    try {
+      const orderCount = await Order.countDocuments();
+  
+      res.send({
+        orderCount: orderCount
+      });
+    } catch (error) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
 module.exports = router;
