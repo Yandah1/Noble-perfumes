@@ -3,7 +3,6 @@
 import { setCurrentStep, updateFormData } from '@/redux/slices/stepFormSlice';
 import { Button, Checkbox, Form, Input } from 'antd';
 import React from 'react'
-import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
 const formItemLayout = {

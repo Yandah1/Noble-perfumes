@@ -9,10 +9,10 @@ export default function StepsComponent() {
 
   return (
     <div>
-      <Steps current={currentStep}>
-        <Steps.Step title="Contact info" icon={<UserOutlined />} />
-        <Steps.Step title="Delivery Address" icon={<CarOutlined />} />
-        <Steps.Step title="Payment" icon={<CheckCircleOutlined />} />
+      <Steps type='navigation' current={currentStep}>
+        <Steps.Step title={<span className="font-bold text-gray-400">Contact info</span>} icon={<UserOutlined />} />
+        <Steps.Step title={<span className="font-bold text-gray-400">Delivery Address</span>} icon={<CarOutlined />} />
+        <Steps.Step title={<span className="font-bold text-gray-400">Payment</span>} icon={<CheckCircleOutlined />} />
       </Steps>
     </div>
   );

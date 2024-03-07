@@ -10,7 +10,7 @@ const theme: ThemeConfig = {
   components: {
     Button: {
       colorBgContainer: "#ffffff00"
-    }
+    },
   }
 };
 

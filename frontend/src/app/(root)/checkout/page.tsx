@@ -6,7 +6,7 @@ export default function Checkout() {
   return (
     <div className='pr-3'>
       <StepsComponent />
-      <div className='mt-5'>
+      <div className='flex flex-col items-center mt-9'>
         <StepForm />
       </div>
     </div>
