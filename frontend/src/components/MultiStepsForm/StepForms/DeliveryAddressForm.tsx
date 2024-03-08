@@ -59,14 +59,14 @@ export default function DeliveryAddressForm() {
   return (
   <Form
     {...formItemLayout}
-    style={{ maxWidth: 600 }}
+    style={{ minWidth: 600 }}
     form={form}
     initialValues={formData}
     onFinish={processData}>
     <Form.Item label="Street Address" name="street_address">
       <Input />
     </Form.Item>
-    <Form.Item label="Complex / Building" name="building">
+    <Form.Item label="Building" name="building">
       <Input />
     </Form.Item>
     <Form.Item label="Suburb" name="suburb">
