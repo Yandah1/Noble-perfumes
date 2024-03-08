@@ -24,6 +24,14 @@ const guestCheckoutSchema = new mongoose.Schema({
   }
 });
 
+guestCheckoutSchema.virtual('id').get(function () {
+  return this._id.toHexString();
+});
+
+guestCheckoutSchema.set('toJSON', {
+  virtuals: true,
+});
+
 const GuestCheckout = mongoose.model('GuestCheckout', guestCheckoutSchema);
 
 module.exports = GuestCheckout;

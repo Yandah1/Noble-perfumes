@@ -6,6 +6,7 @@ const cors = require('cors');
 const Product = require("./models/product");
 const jwt = require('jsonwebtoken');
 const errorHandler = require('./helpers/error-handler');
+//const GuestCheckout = require('../models/guest-checkout');
 //const protectedRoute = require('./routes/protected');
 //const authenticateToken = require('./helpers/jwt');
 
@@ -36,6 +37,8 @@ const categoriesRoutes = require('./routes/categories');
 const productsRoutes = require('./routes/products');
 const usersRoutes = require('./routes/users');
 const ordersRoutes = require('./routes/orders');
+const guestCheckoutRoutes = require('./routes/guest-checkouts'); 
+
 
 dotenv.config();
 
@@ -45,6 +48,7 @@ app.use(`${api}/categories`, categoriesRoutes);
 app.use(`${api}/products`, productsRoutes);
 app.use(`${api}/users`, usersRoutes);
 app.use(`${api}/orders`, ordersRoutes);
+app.use(`${api}/guest-checkouts`, guestCheckoutRoutes);
 
 // Connect to MongoDB database
 mongoose
