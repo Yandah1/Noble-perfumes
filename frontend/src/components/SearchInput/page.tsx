@@ -13,10 +13,13 @@ interface SearchInputProps {
 const SearchInput: React.FC<SearchInputProps> = ({ onSearch, onCategoryChange }) => {
   const [category, setCategory] = useState('all');
   const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSearch = (value: string) => {
     setSearch(value);
+    setLoading(true);
     onSearch(value);
+    setLoading(false);
   };
 
   const handleCategoryChange = (value: string) => {
@@ -37,6 +40,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch, onCategoryChange })
       <Input.Search
         addonBefore={selectBefore}
         placeholder="Search"
+        loading={loading}
         allowClear
         className="text-white-500"
         style={{ marginRight: 10, width: 304, backgroundColor: "#ffffff" }}

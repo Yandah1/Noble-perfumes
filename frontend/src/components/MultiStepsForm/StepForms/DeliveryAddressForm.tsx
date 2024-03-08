@@ -59,7 +59,7 @@ export default function DeliveryAddressForm() {
   return (
   <Form
     {...formItemLayout}
-    style={{ maxWidth: 600 }}
+    style={{ maxWidth: 600, minWidth: 400 }}
     form={form}
     initialValues={formData}
     onFinish={processData}>

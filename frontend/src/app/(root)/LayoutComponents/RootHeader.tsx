@@ -7,11 +7,13 @@ import SearchInput from '@/components/SearchInput/page';
 import { useDispatch, useSelector, } from 'react-redux';
 import { setSearch, setCategory } from '@/redux/slices/searchSlice';
 import { RootState } from '@/redux/store';
+import { usePathname } from 'next/navigation'
+
 
 const RootHeader: React.FC = () => {
   const cart = useSelector((state: RootState) => state.cart);
-  console.log(cart.items)
   const dispatch = useDispatch();
+  const pathname = usePathname()
 
   return (
     <div className='flex justify-between items-center h-3xl py-5'>
@@ -22,12 +24,14 @@ const RootHeader: React.FC = () => {
         </div>
       </Link>
       <div className='text-white-500 hidden lg:flex'>
-      <SearchInput
-        onSearch={(value) => dispatch(setSearch(value))}
-        onCategoryChange={(value) => dispatch(setCategory(value))}
-      />
+      {pathname === '/' && (
+          <SearchInput
+            onSearch={(value) => dispatch(setSearch(value))}
+            onCategoryChange={(value) => dispatch(setCategory(value))}
+          />
+        )}
         <Flex gap='small'>
-          <Button type='default'>
+          <Button href='/orders' type='default'>
             <span className='text-pink-500'>CHECK YOUR ORDER</span>
           </Button>
           <Link href='/cart'>
