@@ -50,7 +50,7 @@ export default function PersonalInfoForm() {
     name="personaldata"
     onFinish={processData}
     initialValues={formData}
-    style={{ minWidth: 600 }}
+    style={{ maxWidth: 600 }}
     scrollToFirstError
   >
     <Form.Item

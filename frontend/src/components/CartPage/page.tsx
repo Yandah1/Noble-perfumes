@@ -131,11 +131,11 @@ const CartPage: React.FC = () => {
       title: 'Actions',
       key: 'actions',
       render: (text: any, record: any) => (
-        <span>
+        <Flex gap={"small"}>
           <Button onClick={() => removeFromCart(record.perfume.id)}>Remove</Button>
           <Button onClick={() => increaseQuantity(record.perfume.id)}>+</Button>
           <Button onClick={() => decreaseQuantity(record.perfume.id)}>-</Button>
-        </span>
+        </Flex>
       ),
     },
   ];
@@ -144,11 +144,11 @@ const CartPage: React.FC = () => {
   const total = cartItems.reduce((acc, item) => acc + item.quantity * item.perfume.price * (1 - item.perfume.discountPercentage / 100), 0);
 
   return (
-    <div>
-      <h3 className='text-bold'>Your Cart</h3>
+    <div className='px-5'>
+      <h3 className='text-bold mb-3'>Your Cart</h3>
       {cartItems.length > 0 ? (
         <div>
-          <Table className='my-3' dataSource={cartItems} columns={columns} />
+          <Table  dataSource={cartItems} columns={columns} />
           <div>
             <h3>Total: ${total.toFixed(2)}</h3>
               <Flex gap="small">

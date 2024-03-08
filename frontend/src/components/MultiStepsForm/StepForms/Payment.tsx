@@ -5,6 +5,7 @@ import { setCurrentStep } from '@/redux/slices/stepFormSlice'
 import { Button, Flex } from 'antd'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import Image from 'next/image';
 
 export default function Payment() {
   const currentStep = useSelector((store: any) => store.stepForm?.currentStep);
@@ -16,7 +17,6 @@ export default function Payment() {
     <div className='max-w-96'>
         <div className="px-4 sm:px-0">
           <h3 className="text-base font-semibold leading-7 text-gray-500">Order Overview</h3>
-          <p className='max-w-2xl text-sm leading-6 text-gray-500'>order#12235</p>
         </div>
         <div className="mt-6 border-t border-gray-100">
           <dl className="divide-y divide-gray-100">
@@ -47,10 +47,15 @@ export default function Payment() {
         </div>
       
       <div className='flex'>
-        <Flex gap="large">
-          <Button type='primary' danger onClick={() => dispatch(setCurrentStep(currentStep - 1))}>Back</Button>
+        <Flex gap="small">
+          <Button danger onClick={() => dispatch(setCurrentStep(currentStep - 1))}>Back</Button>
           <Button type='primary' onClick={() => history.back()}>Edit Cart</Button>
-          <Button danger className='justify-end'><PayFast /></Button>
+          <Button type='primary' danger className='justify-end'>
+            <PayFast />
+            <p className='max-w-2xl text-sm text-gray-600'>
+              <Image alt='pay_fast_banner' width={100} height={100} src="/images/PayFast_Logo_OnLightBackground_2.png" />
+            </p>
+          </Button>
         </Flex>
       </div>
     </div>

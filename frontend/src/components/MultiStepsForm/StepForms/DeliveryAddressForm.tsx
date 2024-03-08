@@ -59,7 +59,7 @@ export default function DeliveryAddressForm() {
   return (
   <Form
     {...formItemLayout}
-    style={{ minWidth: 600 }}
+    style={{ maxWidth: 600 }}
     form={form}
     initialValues={formData}
     onFinish={processData}>
@@ -91,7 +91,7 @@ export default function DeliveryAddressForm() {
 
     <Form.Item {...tailFormItemLayout}>
       <Flex  gap="small">
-        <Button type='primary' danger onClick={() => dispatch(setCurrentStep(currentStep - 1))}>Back</Button>
+        <Button danger onClick={() => dispatch(setCurrentStep(currentStep - 1))}>Back</Button>
         <Button type='primary' htmlType="submit">Continue</Button>
       </Flex>
     </Form.Item>

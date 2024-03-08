@@ -9,16 +9,21 @@ interface SloganPageProps {
 const SloganPage: React.FC<SloganPageProps> = ({ text }) => {
     
     return (
-        <div className="min-w-xl lg:max-w-xl py-10 h-1/2 bg-opacity-10 bg-white rounded-md mx-1 shadow-md flex items-center">
-            <div className="flex flex-col items-center text-center">
-                <p className="text-2xl md:text-4xl lg:text-5xl font-bold">{text}</p>
-                <div className="space-x-4 text-3xl p-5 max-w-[220px]">
-                    <Link href="#"><TwitterOutlined /></Link>
-                    <Link href="#"><FacebookOutlined /></Link>
-                    <Link href="#"><WhatsAppOutlined /></Link>
+        <>
+            <div className="min-w-sm md:min-w-xl xl:max-w-xl py-5 lg:py-10 h-25 lg:h-60 bg-opacity-10 bg-white rounded-md mx-1 shadow-md flex items-center">
+                <div className="flex flex-col items-center min-w-full">
+                    <p className="text-center p-2 xl:p-5 text-2xl xl:text-3xl font-bold">{text}</p>
+                    <div className="space-x-4 text-3xl p-2 lg:max-w-[220px] text-nowrap">
+                        <Link href="#"><TwitterOutlined /></Link>
+                        <Link href="#"><FacebookOutlined /></Link>
+                        <Link href="#"><WhatsAppOutlined /></Link>
+                    </div>
                 </div>
             </div>
-      </div>
+            <div className='text-center mx-auto p-5 m-2'>
+                <Link href={'/about'}>About Us</Link>
+            </div>
+        </>
     );
 }
 

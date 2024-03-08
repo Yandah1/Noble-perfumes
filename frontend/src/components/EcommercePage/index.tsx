@@ -127,7 +127,7 @@ const EcommercePage: React.FC = () => {
 
   return (
     <>
-      <div className='flex flex-wrap gap-4'>
+      <div className='flex flex-wrap gap-4 justify-center'>
         {loading ? (
           <div><Flex gap={10}><Spin size='large' /> loading...</Flex></div>
         ) : totalItems > 0 ? (
