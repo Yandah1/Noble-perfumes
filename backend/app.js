@@ -26,6 +26,11 @@ app.use(errorHandler);
 //app.use(authenticateToken); // Use authJwt middleware
 
 
+app.get('/api/data', (req, res) => {
+  // Logic to fetch data from the database or other sources
+  res.json({ data: 'Hello from Node.js backend!' });
+});
+
 //app.get('/protected', authenticateToken, (req, res) => {
   // Access the authenticated user information from req.user
  // const user = req.user;
