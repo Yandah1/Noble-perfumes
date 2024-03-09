@@ -1,77 +1,35 @@
 "use client"
 import React, { useState } from 'react';
 import { Table, Button, Flex } from 'antd';
+import { addToCart } from '@/redux/slices/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 // Assume Perfume type is defined somewhere in your code
 type Perfume = {
+  _id: string,
+  slug: string,
   id: string;
   name: string;
   price: number;
   description: string;
   image: string;
+  alt: string,
   size: string;
   category: string;
   discountPercentage: number;
 };
 
 const CartPage: React.FC = () => {
-  const perfumeData: Perfume[] = [
-    {
-      id: "1",
-      name: 'Eau de Parfum 1',
-      price: 50,
-      description: 'A delightful fragrance for every occasion.',
-      image: 'perfume1.jpg',  // Provide the correct image path
-      size: '50ml',
-      category: 'Men',
-      discountPercentage: 0
-    },
-    {
-      id: "2",
-      name: 'Eau de Toilette 2',
-      price: 100,
-      description: 'A refreshing scent perfect for daily wear.',
-      image: 'perfume2.jpg',  // Provide the correct image path
-      size: '100ml',
-      category: 'Men',
-      discountPercentage: 50
-    },
-    {
-      id: "3",
-      name: 'Eau de Parfum 1',
-      price: 50,
-      description: 'A delightful fragrance for every occasion.',
-      image: 'perfume1.jpg',  // Provide the correct image path
-      size: '50ml',
-      category: 'Women',
-      discountPercentage: 20
-    },
-    {
-      id: "4",
-      name: 'Eau de Toilette 2',
-      price: 40,
-      description: 'A refreshing scent perfect for daily wear.',
-      image: 'perfume2.jpg',  // Provide the correct image path
-      size: '100ml',
-      category: 'Women',
-      discountPercentage: 10
-    },
-    // Add more perfume data as needed
-  ];
+  const cart = useSelector((state: RootState) => state.cart);
+  const dispatch = useDispatch();
+  
+  // Dispatching addToCart action
+  const handleAddToCart = (perfume: Perfume, quantity: number) => {
+    dispatch(addToCart({ perfume, quantity }));
+  };
 
   const [cartItems, setCartItems] = useState<{ perfume: Perfume; quantity: number }[]>([]);
-
-  const addToCart = (perfume: Perfume, quantity: number) => {
-    const existingItemIndex = cartItems.findIndex(item => item.perfume.id === perfume.id);
-
-    if (existingItemIndex !== -1) {
-      const updatedCartItems = [...cartItems];
-      updatedCartItems[existingItemIndex].quantity += quantity;
-      setCartItems(updatedCartItems);
-    } else {
-      setCartItems([...cartItems, { perfume, quantity }]);
-    }
-  };
 
   const removeFromCart = (perfumeId: string) => {
     const updatedCartItems = cartItems.filter(item => item.perfume.id !== perfumeId);
@@ -158,8 +116,7 @@ const CartPage: React.FC = () => {
           </div>
         </div>
       ) : (
-        <><p>Your cart is empty</p>
-        <Button type='primary' onClick={() => addToCart(perfumeData[2], 1)}>Continue Shopping</Button></>
+        <p>Your cart is empty</p>
       )}
     </div>
   );

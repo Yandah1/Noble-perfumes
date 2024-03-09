@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import { Button, Flex } from 'antd';
+import { Badge, Button, Flex } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import SearchInput from '@/components/SearchInput/page';
@@ -13,6 +13,7 @@ import { usePathname } from 'next/navigation'
 const RootHeader: React.FC = () => {
   const cart = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
+  console.log(cart)
   const pathname = usePathname()
 
   return (
@@ -36,9 +37,9 @@ const RootHeader: React.FC = () => {
             <span className='text-pink-500'>CHECK YOUR ORDER</span>
             </Link>
           </Button>
-          <Link href='/cart'>
+          <Badge count={cart.items.length} showZero>
             <Button type='primary' icon={<ShoppingCartOutlined />} />
-          </Link>
+          </Badge>
         </Flex>
       </div>
     </div>
