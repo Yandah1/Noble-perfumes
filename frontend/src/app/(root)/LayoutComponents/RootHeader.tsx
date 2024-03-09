@@ -31,8 +31,10 @@ const RootHeader: React.FC = () => {
           />
         )}
         <Flex gap='small'>
-          <Button href='/orders' type='default'>
+          <Button type='default'>
+            <Link href={"/orders"}>
             <span className='text-pink-500'>CHECK YOUR ORDER</span>
+            </Link>
           </Button>
           <Link href='/cart'>
             <Button type='primary' icon={<ShoppingCartOutlined />} />
