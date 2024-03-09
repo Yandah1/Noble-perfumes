@@ -129,7 +129,7 @@ const EcommercePage: React.FC = () => {
     <>
       <div className='flex flex-wrap gap-4 justify-center'>
         {loading ? (
-          <div><Flex gap={10}><Spin size='large' /> loading...</Flex></div>
+          <div className='text-center'><Flex gap={10}><Spin size='large' /> loading...</Flex></div>
         ) : totalItems > 0 ? (
           entries.map((perfume: Perfume) => (
             <PerfumeCard key={perfume._id} perfume={perfume} />
