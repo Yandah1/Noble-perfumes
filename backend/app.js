@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const cors = require('cors'); 
 const Product = require("./models/product");
 const jwt = require('jsonwebtoken');
+const path = require('path');
 const errorHandler = require('./helpers/error-handler');
 //const GuestCheckout = require('../models/guest-checkout');
 //const protectedRoute = require('./routes/protected');
@@ -63,6 +64,9 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, '../frontend/out')));
 
   // Start the server
 app.listen(port, ()=>{
