@@ -38,7 +38,7 @@ const RootHeader: React.FC = () => {
             </Link>
           </Button>
           <Badge count={cart.items.length} showZero>
-            <Button type='primary' icon={<ShoppingCartOutlined />} />
+            <Link href={"cart"}><Button type='primary' icon={<ShoppingCartOutlined />} /></Link>
           </Badge>
         </Flex>
       </div>
