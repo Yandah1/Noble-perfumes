@@ -143,7 +143,7 @@ router.post('/notify', (req, res) => {
         signature
     } = req.body;
 
-    res.send('OK');
+    //res.send('OK');
 
     // Verify signature (if required)
     // Perform necessary processing based on payment status
