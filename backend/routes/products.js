@@ -127,4 +127,31 @@ router.get(`/get/featured/:count`, async (req, res) =>{
     res.send(products);
 })
 
+router.post('/notify', (req, res) => {
+    // Extract parameters from the request body
+    console.log('Payment notification received:', req.body)
+    const {
+        m_payment_id,
+        pf_payment_id,
+        payment_status,
+        amount_gross,
+        amount_fee,
+        amount_net,
+        name_first,
+        name_last,
+        email_address,
+        signature
+    } = req.body;
+
+    res.send('OK');
+
+    // Verify signature (if required)
+    // Perform necessary processing based on payment status
+    // Update your database with payment information
+    
+    // Respond to the payment gateway with a success message
+    res.status(200).send('Payment notification received');
+});
+
+
 module.exports = router;
