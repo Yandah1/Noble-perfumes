@@ -43,6 +43,14 @@ const provincesObject = {
   ]
 };
 
+const validateMessages = {
+  required: 'This field is required!',
+  types: {
+    email: 'Not a valid email!',
+    number: 'Not a valid number!',
+  },
+};
+
 export default function DeliveryAddressForm() {
   const currentStep = useSelector((store: any) => store.stepForm?.currentStep);
   const formData = useSelector((store: any) => store.stepForm?.formData);
@@ -55,35 +63,41 @@ export default function DeliveryAddressForm() {
     console.log(data);
   }
 
+
+
   const [form] = Form.useForm();
   return (
   <Form
     {...formItemLayout}
     style={{ maxWidth: 600, minWidth: 400 }}
     form={form}
+    validateMessages={validateMessages}
     initialValues={formData}
     onFinish={processData}>
-    <Form.Item label="Street Address" name="street_address">
+    <Form.Item label="Street Address" name="street_address" rules={[{ required: true }]}>
       <Input />
     </Form.Item>
     <Form.Item label="Building" name="building">
       <Input />
     </Form.Item>
-    <Form.Item label="Suburb" name="suburb">
+    <Form.Item label="Suburb" name="suburb" rules={[{ required: true }]}>
       <Input />
     </Form.Item>
-    <Form.Item label="City / Town" name="city">
+    <Form.Item label="City / Town" name="city" rules={[{ required: true }]}>
       <Input />
     </Form.Item>
-    <Form.Item label="Postal Code" name="postal_code">
+    <Form.Item label="Postal Code" name="postal_code" rules={[{ required: true }]}>
       <Input style={{width: 100}} />
     </Form.Item>
 
-    <Form.Item label="Province">
+    <Form.Item
+      rules={[{ required: true, message: 'Please select a province!' }]}
+      label="Province"
+      name="province">
+        
       <Select
         defaultValue="Free State"
         style={{ width: 150 }}
-        //onChange={handleChange}
         options= {provincesObject.provinces}
       />
     </Form.Item>

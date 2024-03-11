@@ -1,20 +1,10 @@
-import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+"use client"
 import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import Providers from "@/redux/Providers";
+import Providers, { persistor } from "@/redux/Providers";
 import { ConfigProvider } from "antd";
 import theme from "@/theme/themeConfig";
-
-const poppins = Poppins({ 
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500"]
-});
-
-export const metadata: Metadata = {
-  title: "Noble Perfumes",
-  description: "Perfumes sales e-commerce",
-};
+import { PersistGate } from "redux-persist/integration/react";
 
 export default function RootLayout({
   children,
@@ -24,10 +14,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ConfigProvider theme={theme}>
-        <body className={`${poppins.className} px-5`}>
+        <body className="px-5">
         <AntdRegistry>
             <Providers>
+            <PersistGate loading={null} persistor={persistor}>
               {children}
+            </PersistGate>
             </Providers>
           </AntdRegistry>
         </body>
