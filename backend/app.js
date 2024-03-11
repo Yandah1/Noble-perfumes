@@ -35,7 +35,7 @@ const categoriesRoutes = require('./routes/categories');
 const productsRoutes = require('./routes/products');
 const usersRoutes = require('./routes/users');
 const ordersRoutes = require('./routes/orders');
-const guestCheckoutRoutes = require('./routes/guest-checkouts');
+const guestCheckoutRoutes = require('./routes/guestcheckouts');
 const paymentsRoutes = require('./routes/payments');
 
 
