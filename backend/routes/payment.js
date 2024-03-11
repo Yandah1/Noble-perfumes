@@ -23,7 +23,8 @@ router.post('/payfast', async (req, res) => {
 // Define additional payment routes as needed
 // payment.js
 // Endpoint to handle payment notifications/callbacks
-router.post('/notify', (req, res) => {
+router.post('/notify',  res) => { 
+	console.log(req.body);
     // Extract parameters from the request body
     const {
         m_payment_id,
