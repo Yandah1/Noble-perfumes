@@ -20,6 +20,7 @@ router.post('/payfast', async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 // Define additional payment routes as needed
 // payment.js
 // Endpoint to handle payment notifications/callbacks
@@ -47,4 +48,6 @@ router.post('/notify',  res) => {
     res.status(200).send('Payment notification received');
 });
 
+=======
+>>>>>>> 4140981d3a6bfbc87723a4a1c4167a51a93ec329
 module.exports = router;
