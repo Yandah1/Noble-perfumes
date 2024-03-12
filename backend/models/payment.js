@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // Define the schema for the Payment model
 const paymentSchema = new mongoose.Schema({
     m_payment_id: String,
-    pf_payment_id: String,
+    pf_payment_id: Number,
     payment_status: String,
     amount_gross: Number,
     amount_fee: Number,
