@@ -20,4 +20,44 @@ router.post('/payfast', async (req, res) => {
     }
 });
 
+router.post('/notify', async (req, res) => {
+    try {
+        // Extract parameters from the request body
+        console.log('Payment notification received:', req.body);
+        const {
+            m_payment_id,
+            pf_payment_id,
+            payment_status,
+            amount_gross,
+            amount_fee,
+            amount_net,
+            name_first,
+            name_last,
+            email_address,
+            signature
+        } = req.body;
+
+        // Insert or update payment information into your database
+        await payment.create({
+            m_payment_id,
+            pf_payment_id,
+            payment_status,
+            amount_gross,
+            amount_fee,
+            amount_net,
+            name_first,
+            name_last,
+            email_address,
+            signature
+        });
+
+        // Respond to the payment gateway with a success message
+        res.status(200).send('Payment notification received and database updated');
+    } catch (error) {
+        console.error('Error processing payment notification:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+
 module.exports = router;
