@@ -27,16 +27,10 @@ const CartPage: React.FC = () => {
       render: (text: any, record: any) => `R${record.perfume.price.toFixed(2)}`,
     },
     {
-      title: 'Discount',
-      dataIndex: 'perfume.discountPercentage',
-      key: 'discountPercentage',
-      render: (text: any, record: any) => `${record.perfume.discountPercentage}%`,
-    },
-    {
       title: 'Subtotal',
       dataIndex: 'subtotal',
       key: 'subtotal',
-      render: (text: any, record: any) => `R${(record.quantity * record.perfume.price * (1 - record.perfume.discountPercentage / 100)).toFixed(2)}`,
+      render: (text: any, record: any) => `R${(record.quantity * record.perfume.price).toFixed(2)}`,
     },
     {
       title: 'Actions',
@@ -48,16 +42,16 @@ const CartPage: React.FC = () => {
   ];  
 
   const total = cart.items.reduce((acc, item) => {
-    const discountedPrice = item.perfume.price * (1 - item.perfume.discountPercentage / 100);
+    const discountedPrice = item.perfume.price;
     return acc + item.quantity * discountedPrice;
   }, 0);
 
   return (
-    <div className='px-5'>
+    <div className='lg:px-5'>
       <h3 className='text-bold mb-3'>Your Cart</h3>
       {cart.items.length > 0 ? (
         <div>
-          <Table  dataSource={cart.items.map(item => ({ ...item, key: item.perfume._id }))}
+          <Table   dataSource={cart.items.map(item => ({ ...item, key: item.perfume._id }))}
             columns={columns} />
           <div>
             <h3>Total: ${total.toFixed(2)}</h3>

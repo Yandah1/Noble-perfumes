@@ -11,6 +11,9 @@ const theme: ThemeConfig = {
     Button: {
       colorBgContainer: "#ffffff00"
     },
+    Drawer: {
+      colorIcon: "white"
+    }
   }
 };
 

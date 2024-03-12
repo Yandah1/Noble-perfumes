@@ -1,19 +1,19 @@
 "use client"
 import React from 'react';
-import { Badge, Button, Flex } from 'antd';
-import { ShoppingCartOutlined } from '@ant-design/icons';
+import { Badge, Breadcrumb, Button, Flex } from 'antd';
+import { AlignRightOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import SearchInput from '@/components/SearchInput/page';
 import { useDispatch, useSelector, } from 'react-redux';
 import { setSearch, setCategory } from '@/redux/slices/searchSlice';
 import { RootState } from '@/redux/store';
 import { usePathname } from 'next/navigation'
+import DrawerComponent from '@/components/Drawer/page';
 
 
 const RootHeader: React.FC = () => {
   const cart = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
-  console.log(cart)
   const pathname = usePathname()
 
   return (
@@ -25,7 +25,7 @@ const RootHeader: React.FC = () => {
         </div>
       </Link>
       <div className='text-white-500 hidden lg:flex'>
-      {pathname === '/' && (
+        {pathname === '/' && (
           <SearchInput
             onSearch={(value) => dispatch(setSearch(value))}
             onCategoryChange={(value) => dispatch(setCategory(value))}
@@ -41,6 +41,9 @@ const RootHeader: React.FC = () => {
             <Link href={"cart"}><Button type='primary' icon={<ShoppingCartOutlined />} /></Link>
           </Badge>
         </Flex>
+      </div>
+      <div className='lg:hidden'>
+        <DrawerComponent />
       </div>
     </div>
   );

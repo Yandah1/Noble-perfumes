@@ -108,3 +108,11 @@
       color-scheme: dark;
     }
   }
+
+  /* Media query for screens with a width of 1250px or more */
+@media (min-width: 900px) {
+  .lg {
+    /* Override or add styles specific to lg:flex-row when the width is 1250px or more */
+    flex-direction: row; /* Example: Set flex-direction to row */
+  }
+}

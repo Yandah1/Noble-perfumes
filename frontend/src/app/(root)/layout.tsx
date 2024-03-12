@@ -11,7 +11,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <div className='mb-5 lg:min-w-max'>
                 {<SloganPage />}
               </div>
-              <div className='w-full ml-5'>{children}</div>
+              <div className='w-full'>{children}</div>
           </div>
         <RootFooter />
     </div>

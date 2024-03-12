@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ConfigProvider theme={theme}>
-        <body className="px-5">
+        <body style={{minWidth: 658}} className="px-5">
         <AntdRegistry>
             <Providers>
             <PersistGate loading={null} persistor={persistor}>
