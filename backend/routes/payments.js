@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const { generatePayFastUrl } = require('../helpers/payment-gateways'); // Import function to generate PayFast payment URL
+const Payment = require('../models/payment');
 
 // POST Endpoint for Initial Payment Processing
 router.post('/payfast', async (req, res) => {
