@@ -3,6 +3,33 @@ const mongoose = require('mongoose');
 const { Product } = require('../models/product');
 const router = express.Router();
 const { Category } = require('../models/category');
+const multer = require('multer');
+
+const FILE_TYPE_MAP = {
+    'image/png': 'png',
+    'image/jpeg': 'jpeg',
+    'image/jpg': 'jpg'
+}
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const isValid = FILE_TYPE_MAP[file.mimetype];
+        let uploadError = new Error('invalid image type');
+
+        if(isValid) {
+            uploadError = null
+        }
+      cb(uploadError, 'public/uploads')
+    },
+    filename: function (req, file, cb) {
+        
+      const fileName = file.originalname.split(' ').join('-');
+      const extension = FILE_TYPE_MAP[file.mimetype];
+      cb(null, `${fileName}-${Date.now()}.${extension}`)
+    }
+  })
+  
+const uploadOptions = multer({ storage: storage })
 
 // GET all products
 router.get('/', async (req, res) => {
@@ -126,5 +153,32 @@ router.get(`/get/featured/:count`, async (req, res) =>{
     } 
     res.send(products);
 })
+
+router.post('/notify', (req, res) => {
+    // Extract parameters from the request body
+    console.log('Payment notification received:', req.body)
+    const {
+        m_payment_id,
+        pf_payment_id,
+        payment_status,
+        amount_gross,
+        amount_fee,
+        amount_net,
+        name_first,
+        name_last,
+        email_address,
+        signature
+    } = req.body;
+
+    //res.send('OK');
+
+    // Verify signature (if required)
+    // Perform necessary processing based on payment status
+    // Update your database with payment information
+    
+    // Respond to the payment gateway with a success message
+    res.status(200).send('Payment notification received');
+});
+
 
 module.exports = router;

@@ -8,7 +8,6 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const errorHandler = require('./helpers/error-handler');
 //const GuestCheckout = require('../models/guest-checkout');
-//const protectedRoute = require('./routes/protected');
 //const authenticateToken = require('./helpers/jwt');
 
 // Create Express app
@@ -22,7 +21,6 @@ app.options('*', cors());
 app.use(express.json()); // Parse JSON in the request body
 app.use(express.urlencoded({ extended: true })); 
 app.use(morgan('tiny'));
-//app.use('/api', protectedRoute);
 app.use(errorHandler);
 //app.use(authenticateToken); // Use authJwt middleware
 
@@ -32,18 +30,13 @@ app.get('/api/data', (req, res) => {
   res.json({ data: 'Hello from Node.js backend!' });
 });
 
-//app.get('/protected', authenticateToken, (req, res) => {
-  // Access the authenticated user information from req.user
- // const user = req.user;
-  // Handle the protected route logic here
-//});
-
 //Routes
 const categoriesRoutes = require('./routes/categories');
 const productsRoutes = require('./routes/products');
 const usersRoutes = require('./routes/users');
 const ordersRoutes = require('./routes/orders');
-const guestCheckoutRoutes = require('./routes/guest-checkouts'); 
+const guestCheckoutRoutes = require('./routes/guest-checkouts');
+const paymentsRoutes = require('./routes/payments');
 
 
 dotenv.config();
@@ -55,6 +48,7 @@ app.use(`${api}/products`, productsRoutes);
 app.use(`${api}/users`, usersRoutes);
 app.use(`${api}/orders`, ordersRoutes);
 app.use(`${api}/guest-checkouts`, guestCheckoutRoutes);
+app.use(`${api}/payments`, paymentsRoutes);
 
 // Connect to MongoDB database
 mongoose
