@@ -20,30 +20,4 @@ router.post('/payfast', async (req, res) => {
     }
 });
 
-// Define additional payment routes as needed
-// payment.js
-// Endpoint to handle payment notifications/callbacks
-router.post('/notify', (req, res) => {
-    // Extract parameters from the request body
-    const {
-        m_payment_id,
-        pf_payment_id,
-        payment_status,
-        amount_gross,
-        amount_fee,
-        amount_net,
-        name_first,
-        name_last,
-        email_address,
-        signature
-    } = req.body;
-
-    // Verify signature (if required)
-    // Perform necessary processing based on payment status
-    // Update your database with payment information
-    
-    // Respond to the payment gateway with a success message
-    res.status(200).send('Payment notification received');
-});
-
 module.exports = router;
