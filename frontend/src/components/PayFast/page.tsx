@@ -1,8 +1,16 @@
 import React from 'react'
-import { assertValue, generateSignature } from '@/utils/utilities';
+import { generateSignature } from '@/utils/utilities';
 
-export default function PayFast() {
-    const cartTotal: number = 1000.00; // This amount needs to be sourced from your application
+export interface OrderInfo {
+    name: string;
+    email: string;
+    order_no: string;
+    payment_id: string;
+    total: number;
+  }
+
+export default function PayFast({ order }: { order: OrderInfo }) {
+    const cartTotal: number = order.total; // This amount needs to be sourced from your application
     const passPhrase: string = "nobleperfumes"
     const data: any = {
         // Merchant details
@@ -10,15 +18,14 @@ export default function PayFast() {
         'merchant_key': 'runrf7hq41f3s',
         'return_url': 'http://www.nobleperfumes.store/return',
         'cancel_url': 'http://www.nobleperfumes.store/cancel',
-        'notify_url': 'http://localhost:3000/api/notify',
+        'notify_url': 'http://34.204.81.17:3000/api/v1/payments/notify',
         // Buyer details
-        'name_first': 'Noble',
-        'name_last': 'Malgas',
-        'email_address': 'noblegaz@gmail.com',
+        'name_first': `${order.name}`,
+        'email_address': `${order.email}`,
         // Transaction details
-        'm_payment_id': '123456', // Unique payment ID to pass through to notify_url
+        'm_payment_id': `${order.payment_id}`, // Unique payment ID to pass through to notify_url
         'amount': Number((cartTotal).toFixed(2)),
-        'item_name': 'Order#12345',
+        'item_name': `${order.order_no}`,
     };
 
     const signature: string = generateSignature(data, passPhrase);

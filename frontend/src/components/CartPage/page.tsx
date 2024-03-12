@@ -54,7 +54,7 @@ const CartPage: React.FC = () => {
           <Table   dataSource={cart.items.map(item => ({ ...item, key: item.perfume._id }))}
             columns={columns} />
           <div>
-            <h3>Total: ${total.toFixed(2)}</h3>
+            <h3>Total: R{total.toFixed(2)}</h3>
               <Flex gap="small">
                 <Link href='/checkout'><Button type="primary" danger >Checkout</Button></Link>
                 <Link href={"/"}><Button type='primary'>Continue Shopping</Button></Link>
