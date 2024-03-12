@@ -8,7 +8,7 @@ module.exports = {
       user : 'ubuntu',
       key: '~/.ssh/school',
       host : '54.152.74.112',
-      ref  : 'origin/master',
+      ref  : 'origin/main',
       repo : 'git@github.com:Yandah1/Noble-perfumes.git',
       path : '/home/ubuntu',
       'pre-deploy-local': '',
