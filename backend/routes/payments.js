@@ -39,7 +39,7 @@ router.post('/notify', async (req, res) => {
         } = req.body;
 
         // Insert or update payment information into your database
-        await PaymentModel.create({
+        await Payment.create({
             m_payment_id,
             pf_payment_id,
             payment_status,
