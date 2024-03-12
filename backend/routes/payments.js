@@ -8,7 +8,7 @@ const { generatePayFastUrl } = require('../helpers/payment-gateways'); // Import
 router.post('/payfast', async (req, res) => {
     try {
         // Process the initial payment data
-i        // Generate PayFast payment URL
+        // Generate PayFast payment URL
         const orderId = '1234'; // Get orderId from request or generate dynamically
         const amount = '10.00'; // Get payment amount from request
         const payFastUrl = generatePayFastUrl(orderId, amount);
