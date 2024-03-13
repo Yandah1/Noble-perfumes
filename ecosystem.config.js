@@ -2,12 +2,16 @@ module.exports = {
   apps : [
     {
       name: 'frontend',
-      script: 'cd frontend npm start',
+      script: 'npm',
+      args: 'start',
+      cwd: '~/source/frontend',
     },
     {
       name: 'backend',
-      script: 'npm start',
-    }
+      script: 'npm',
+      args: 'start',
+      cwd: '~/source/backend',
+    },
 ],
 
   deploy : {
