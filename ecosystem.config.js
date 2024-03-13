@@ -19,7 +19,7 @@ module.exports = {
       repo : 'git@github.com:Yandah1/Noble-perfumes.git',
       path : '/home/ubuntu/',
       'pre-deploy-local': '',
-      'post-deploy' : 'source ~/.nvm/nvm.sh && cd frontend && npm install && npm run build && pm2 reload ecosystem.config.js --env production_frontend',
+      'post-deploy' : 'source ~/.nvm/nvm.sh && cd frontend && npm install && npm run build && cd .. && pm2 reload ecosystem.config.js --env production_frontend',
       'pre-setup': '',
       'ssh_options': 'ForwardAgent=yes'
     },
