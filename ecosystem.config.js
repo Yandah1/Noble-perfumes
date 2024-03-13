@@ -2,11 +2,11 @@ module.exports = {
   apps : [
     {
       name: 'frontend',
-      script: 'cd frontend && npm start',
+      script: 'npm start',
     },
     {
       name: 'backend',
-      script: 'cd backend && npm start',
+      script: 'npm start',
     }
 ],
 
