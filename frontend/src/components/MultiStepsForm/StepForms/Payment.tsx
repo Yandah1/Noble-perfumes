@@ -1,18 +1,34 @@
 "use client"
 
-import PayFast from '@/components/PayFast/page';
+import PayFast, { OrderInfo } from '@/components/PayFast/page';
 import { setCurrentStep } from '@/redux/slices/stepFormSlice'
 import { Button, Flex } from 'antd'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
+import { RootState } from '@/redux/store';
 
 export default function Payment() {
   const currentStep = useSelector((store: any) => store.stepForm?.currentStep);
   const formData = useSelector((store: any) => store.stepForm?.formData);
+  const cart = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
   
-  console.log(formData)
+  const total = cart.items.reduce((acc, item) => {
+    const discountedPrice = item.perfume.price;
+    return acc + item.quantity * discountedPrice;
+  }, 0);
+
+  const order: OrderInfo = {
+    name: formData.fullname,
+    email: formData.email,
+    order_no: '123456',
+    payment_id: '789012',
+    total: total,
+  };
+
+  console.log(order)
+
   return (
     <div className='max-w-96'>
         <div className="px-4 sm:px-0">
@@ -24,22 +40,15 @@ export default function Payment() {
               <dt className="text-sm font-medium leading-6 text-pink-900">Ordered Items:</dt>
               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                 <div className='mb-2'>
-                  <p>1. Fugiat ipsum ipsum deserunt</p>
-                  <span>100ml x3</span>
+                  {cart.items.map((item, index) => (
+                    <div className='mb-2'>
+                        <p>{index + 1}. {item.perfume.name}</p>
+                        <span>{item.perfume.size}ml x{item.quantity}</span>
+                        <hr />
+                    </div>
+                  ))}
                 </div>
-                <hr />
-
-                <div className='mb-2'>
-                  <p>2. Fugiat ipsum ipsum</p>
-                  <span>100ml x3</span>
-                </div>
-                <hr />
-                <div className='mb-2'>
-                  <p>3. Fugiat ipsum ipsum deserunt Fugiat ipsum</p>
-                  <span>100ml x3</span>
-                </div>
-                <hr />
-                <b className=''>Total: R1200</b>
+                <b className=''>Total: R{total.toFixed(2)}</b>
               </dd>
               
             </div>
@@ -51,7 +60,7 @@ export default function Payment() {
           <Button danger onClick={() => dispatch(setCurrentStep(currentStep - 1))}>Back</Button>
           <Button type='primary' onClick={() => history.back()}>Edit Cart</Button>
           <Button type='primary' danger className='justify-end'>
-            <PayFast />
+            <PayFast order={order} />
             <p className='max-w-2xl text-sm text-gray-600'>
               <Image alt='pay_fast_banner' width={100} height={100} src="/images/PayFast_Logo_OnLightBackground_2.png" />
             </p>

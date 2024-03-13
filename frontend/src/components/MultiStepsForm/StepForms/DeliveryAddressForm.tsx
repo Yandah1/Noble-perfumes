@@ -96,7 +96,6 @@ export default function DeliveryAddressForm() {
       name="province">
         
       <Select
-        defaultValue="Free State"
         style={{ width: 150 }}
         options= {provincesObject.provinces}
       />
