@@ -5,8 +5,13 @@ module.exports = {
       script: 'npm',
       args: 'start',
       cwd: '~/current/frontend',
+      env: {
+        NEXT_PUBLIC_SANITY_PROJECT_ID: "3pi1k2ye",
+        NEXT_PUBLIC_SANITY_DATASET: "production",
+        PASS_PHRASE: "nobleperfumes"
+      },
     }],
-    
+
   deploy : {
     production_frontend : {
       user : 'ubuntu',
