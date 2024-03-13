@@ -2,8 +2,8 @@ const {User} = require('../models/user');
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const authenticateToken = require('../helpers/jwt');
+//const jwt = require('jsonwebtoken');
+//const authenticateToken = require('../helpers/jwt');
 
 router.get(`/`, async (req, res) =>{
     const userList = await User.find().select('-passwordHash');
@@ -25,7 +25,7 @@ router.get('/:id', async(req,res)=>{
 
 // Create new user
 router.post('/', async (req, res) => {
-    const password = req.body.password;
+    //const password = req.body.password;
 
     // Check if the password is missing in the request body
     if (!password) {
@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
         let user = new User({
             name: req.body.name,
             email: req.body.email,
-            passwordHash: bcrypt.hashSync(req.body.password, 10), // Hash the password
+            //passwordHash: bcrypt.hashSync(req.body.password, 10), // Hash the password
             phone: req.body.phone,
             isAdmin: req.body.isAdmin,
             street: req.body.street,
