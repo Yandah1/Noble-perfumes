@@ -2,7 +2,7 @@ module.exports = {
   apps : [
     {
       name: 'frontend',
-      script: 'npm start',
+      script: 'cd frontend npm start',
     },
     {
       name: 'backend',
@@ -31,7 +31,7 @@ module.exports = {
       repo : 'git@github.com:Yandah1/Noble-perfumes.git',
       path : '/home/ubuntu/backend',
       'pre-deploy-local': '',
-      'post-deploy' : 'source ~/.nvm/nvm.sh && cd frontend && npm install && npm run build && pm2 reload ecosystem.config.js --env production_backend',
+      'post-deploy' : 'source ~/.nvm/nvm.sh && cd frontend && npm install && npm run build && cd .. && pm2 reload ecosystem.config.js --env production_backend',
       'pre-setup': '',
       'ssh_options': 'ForwardAgent=yes'
     }
