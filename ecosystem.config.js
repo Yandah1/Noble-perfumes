@@ -13,8 +13,8 @@ module.exports = {
   deploy : {
     production_frontend : {
       user : 'ubuntu',
-      key: '~/.ssh/key.pem',
-      host : '13.246.28.189',
+      key: '~/.ssh/school',
+      host : '54.152.74.112',
       ref  : 'origin/main',
       repo : 'git@github.com:Yandah1/Noble-perfumes.git',
       path : '/home/ubuntu/',
