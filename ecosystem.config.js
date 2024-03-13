@@ -2,14 +2,7 @@ module.exports = {
   apps : [
     {
       name: 'frontend',
-      script: 'npm',
-      args: 'start',
-      cwd: '~/current/frontend',
-      env: {
-        NEXT_PUBLIC_SANITY_PROJECT_ID: "3pi1k2ye",
-        NEXT_PUBLIC_SANITY_DATASET: "production",
-        PASS_PHRASE: "nobleperfumes"
-      },
+      script: 'cd frontend && npm start',
     }],
 
   deploy : {
