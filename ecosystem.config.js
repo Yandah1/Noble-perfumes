@@ -13,13 +13,13 @@ module.exports = {
   deploy : {
     production_frontend : {
       user : 'ubuntu',
-      key: '~/.ssh/school',
-      host : '54.152.74.112',
+      key: '~/.ssh/key.pem',
+      host : '13.246.28.189',
       ref  : 'origin/main',
       repo : 'git@github.com:Yandah1/Noble-perfumes.git',
-      path : '/home/ubuntu/frontend',
+      path : '/home/ubuntu/',
       'pre-deploy-local': '',
-      'post-deploy' : 'source ~/.nvm/nvm.sh && cd frontend && npm install && npm run build && pm2 reload ecosystem.config.js --env production',
+      'post-deploy' : 'source ~/.nvm/nvm.sh && cd frontend && npm install && npm run build && pm2 reload ecosystem.config.js --env production_frontend',
       'pre-setup': '',
       'ssh_options': 'ForwardAgent=yes'
     },
@@ -31,7 +31,7 @@ module.exports = {
       repo : 'git@github.com:Yandah1/Noble-perfumes.git',
       path : '/home/ubuntu/backend',
       'pre-deploy-local': '',
-      'post-deploy' : 'source ~/.nvm/nvm.sh && cd frontend && npm install && npm run build && pm2 reload ecosystem.config.js --env production',
+      'post-deploy' : 'source ~/.nvm/nvm.sh && cd frontend && npm install && npm run build && pm2 reload ecosystem.config.js --env production_backend',
       'pre-setup': '',
       'ssh_options': 'ForwardAgent=yes'
     }
