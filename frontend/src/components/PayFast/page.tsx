@@ -16,8 +16,8 @@ export default function PayFast({ order }: { order: OrderInfo }) {
         // Merchant details
         'merchant_id': '10032903',
         'merchant_key': 'runrf7hq41f3s',
-        'return_url': 'http://www.nobleperfumes.store/return',
-        'cancel_url': 'http://www.nobleperfumes.store/cancel',
+        'return_url': 'http://nobleperfumes.store',
+        'cancel_url': 'http://nobleperfumes.store',
         'notify_url': 'http://34.204.81.17:3000/api/v1/payments/notify',
         // Buyer details
         'name_first': `${order.name}`,
