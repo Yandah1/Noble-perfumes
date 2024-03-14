@@ -31,9 +31,9 @@ export default function CheckOrdersPage() {
                             <p><b>Phone: </b> 063 699 4946</p>
                           </span>
                           <dl>
-                            <div className="sm:grid grid-cols-3 sm:gap-1 sm:px-0">
+                            <div className="md:grid grid-cols-6 sm:gap-1 sm:px-0">
                               <dt><p><b>Delivery Address:</b></p></dt>
-                              <dd className="text-sm text-gray-700 sm:col-span-2 sm:mt-0">
+                              <dd className="text-sm text-gray-700 md:col-span-2 sm:mt-0">
                                 <div className='mt-1'>
                                     <div className='mb-2'>
                                         <p>2565 LEEPILE STREET</p>
@@ -59,8 +59,8 @@ export default function CheckOrdersPage() {
                   <div className='mb-2'>
                       <div className='mb-2'>
                           <p>1. The name 100ml - x3</p>
-                          <hr />
                       </div>
+                      <hr />
                   </div>
                   <b className=''>Order status: SENT TO COURIER</b>
                 </dd>
