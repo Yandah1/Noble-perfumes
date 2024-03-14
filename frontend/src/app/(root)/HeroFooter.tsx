@@ -17,8 +17,8 @@ export default function Footer() {
           </Button>
           |
           <Button type='link'>
-            <Link href="/about">
-              Contact Us
+            <Link href="/aboutus">
+              About Us
             </Link>
           </Button>
           |
