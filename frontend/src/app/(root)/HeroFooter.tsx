@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { Button } from 'antd';
 
 export default function Footer() {
   // Get current year
@@ -9,13 +10,17 @@ export default function Footer() {
     <div className="border-t border-gray-400">
       <div className="h-6 my-5">
         <div className="flex gap-3 justify-center">
-          <Link href="/terms">
-            About the Developers
-          </Link>
+          <Button type='link'>
+            <Link href="/about">
+              About the Developers
+            </Link>
+          </Button>
           |
-          <Link href="/privacy">
-            Contact Us
-          </Link>
+          <Button type='link'>
+            <Link href="/about">
+              Contact Us
+            </Link>
+          </Button>
           |
           <span>&copy; {currentYear} Noble Perfumes</span>
         </div>

@@ -57,12 +57,12 @@ const CartPage: React.FC = () => {
             <h3>Total: R{total.toFixed(2)}</h3>
               <Flex gap="small">
                 <Link href='/checkout'><Button type="primary" danger >Checkout</Button></Link>
-                <Link href={"/"}><Button type='primary'>Continue Shopping</Button></Link>
+                <Link href={"/ecommerce"}><Button type='primary'>Continue Shopping</Button></Link>
               </Flex>
           </div>
         </div>
       ) : (
-        <><p className='mb-5 text-red-400'>Your cart is empty!!</p><Link href={"/"}><Button type='primary'>Continue Shopping</Button></Link></>
+        <><p className='mb-5 text-red-400'>Your cart is empty!!</p><Link href={"/ecommerce"}><Button type='primary'>Continue Shopping</Button></Link></>
       )}
     </div>
   );

@@ -3,14 +3,16 @@ import { Form, Input } from 'antd'
 import React, { useState } from 'react'
 
 export default function CheckOrdersPage() {
-  const [results, setResults] = useState([{}])
+  const [results, setResults] = useState([])
   return (
     <div className='m-6 '>
       <Form
       style={{ maxWidth: 400 }}
       >
         <Form.Item
+        name='search'
         label="Enter transaction id:"
+        tooltip="e.g ghGFHB7HGFMv82j327hHhkHJ"
         >
           <Input.Search name='search' />
         </Form.Item>

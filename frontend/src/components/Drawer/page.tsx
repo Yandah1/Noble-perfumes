@@ -1,4 +1,4 @@
-import SiderContent from '@/app/(root)/LayoutComponents/DrawerContent';
+import SiderContent from '@/app/(main)/LayoutComponents/DrawerContent';
 import { AlignRightOutlined } from '@ant-design/icons';
 import { Button, Drawer } from 'antd';
 import React, { useState } from 'react'
