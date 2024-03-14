@@ -1,11 +1,13 @@
-import EcommercePage from "@/components/EcommercePage";
-import StepForm from "@/components/MultiStepsForm/StepForm";
-import StepsComponent from "@/components/MultiStepsForm/Steps";
+"use client"
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Home() {
-  return (
-    <main className="container mx-auto">
-      <EcommercePage />
-    </main>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/landing');
+  }, []);
+
+  return null;
 }
