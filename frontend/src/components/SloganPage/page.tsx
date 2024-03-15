@@ -21,7 +21,7 @@ const SloganPage: React.FC<SloganPageProps> = ({ text }) => {
                 </div>
             </div>
             <div className='text-center mx-auto p-5 m-2'>
-                <Link href={'/about'}>About Us</Link>
+                <Link href={'/about'}>Contact Us</Link>
             </div>
         </>
     );
