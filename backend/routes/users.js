@@ -54,8 +54,8 @@ router.post('/', async (req, res) => {
     }
 });
 
+// UPDATE user by ID 
 router.put('/:id',async (req, res)=> {
-
     const userExist = await User.findById(req.params.id);
     let newPassword
     if(req.body.password) {
@@ -120,7 +120,7 @@ router.put('/:id',async (req, res)=> {
     res.send(user);
 })
 
-
+// CREATE new user
 router.post('/login', async (req,res) => {
     const user = await User.findOne({email: req.body.email})
     const secret = process.env.secret;
@@ -145,6 +145,7 @@ router.post('/login', async (req,res) => {
 
 })
 
+// DELETE user by specific ID
 router.delete('/:id', (req, res)=>{
     User.findByIdAndDelete(req.params.id).then(user =>{
         if(user) {
@@ -157,6 +158,7 @@ router.delete('/:id', (req, res)=>{
     })
 })
 
+// GET a number of users
 router.get(`/get/count`, async (req, res) =>{
     const userCount = await User.countDocuments((count) => count)
 

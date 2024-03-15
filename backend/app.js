@@ -7,7 +7,6 @@ const Product = require("./models/product");
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const errorHandler = require('./helpers/error-handler');
-//const GuestCheckout = require('../models/guest-checkout');
 //const authenticateToken = require('./helpers/jwt');
 
 // Create Express app
@@ -18,7 +17,7 @@ app.use(cors());
 app.options('*', cors());
 
 // Middleware Configuration
-app.use(express.json()); // Parse JSON in the request body
+app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 app.use(morgan('tiny'));
 app.use(errorHandler);

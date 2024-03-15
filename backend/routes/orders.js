@@ -13,6 +13,7 @@ const orderSchema = mongoose.Schema({
   }]
 });
 
+// GET order list
 router.get('/', async (req, res) => {
   const orderList = await Order.find().populate('user', 'name').sort({ 'dateOrdered': -1 });
 
@@ -22,6 +23,7 @@ router.get('/', async (req, res) => {
   res.send(orderList);
 });
 
+// GET a specific order by its ID
 router.get(`/:id`, async (req, res) =>{
   const order = await Order.findById(req.params.id)
   .populate('user', 'name')
@@ -36,6 +38,7 @@ router.get(`/:id`, async (req, res) =>{
   res.send(order);
 })
 
+// CREATE a new order
 router.post('/', async (req, res) => {
   const orderItemsIds = await Promise.all(req.body.orderItems.map(async (orderItem) => {
     let newOrderItem = new OrderItem({
@@ -69,6 +72,7 @@ router.post('/', async (req, res) => {
   res.send(order);
 });
 
+// UPDATE an order by ID
 router.put('/:id', async (req, res) => {
     const orderId = req.params.id;
     const updatedOrder = req.body;
@@ -115,6 +119,7 @@ router.put('/:id', async (req, res) => {
     res.send(updatedOrderResult);
   });
 
+  // DELETE a order by its ID
   router.delete('/:id', async (req, res) => {
     const orderId = req.params.id;
   
@@ -142,6 +147,7 @@ router.put('/:id', async (req, res) => {
     res.send({totalsales: totalSales.pop().totalsales})
 })
 
+// GET order count
 router.get('/get/count', async (req, res) => {
     try {
       const orderCount = await Order.countDocuments();
