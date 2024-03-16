@@ -7,7 +7,6 @@ const Product = require("./models/product");
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const errorHandler = require('./helpers/error-handler');
-//const authenticateToken = require('./helpers/jwt');
 const http = require('http');
 const socketIO = require('socket.io');
 
@@ -15,7 +14,7 @@ const socketIO = require('socket.io');
 const app = express();
 const port = 3000;
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = socketIO(server); 
 
 app.use(cors());
 app.options('*', cors());
@@ -25,11 +24,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 app.use(morgan('tiny'));
 app.use(errorHandler);
-//app.use(authenticateToken); // Use authJwt middleware
-
 
 app.get('/api/data', (req, res) => {
-  // Logic to fetch data from the database or other sources
   res.json({ data: 'Hello from Node.js backend!' });
 });
 
@@ -41,8 +37,6 @@ const ordersRoutes = require('./routes/orders');
 const guestCheckoutRoutes = require('./routes/guest-checkouts');
 const paymentsRoutes = require('./routes/payments');
 const orderTrackingRoutes = require('./routes/orderTracking');
-const { Socket } = require("dgram");
-
 
 dotenv.config();
 
@@ -56,20 +50,22 @@ app.use(`${api}/guest-checkouts`, guestCheckoutRoutes);
 app.use(`${api}/payments`, paymentsRoutes);
 app.use(`${api}/orderTracking`, orderTrackingRoutes);
 
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, '../frontend/out')));
+
 // WebSocket connection
-io.on('connection', (Socket) => {
+io.on('connection', (socket) => { // Corrected parameter name
   console.log('A new client connected');
 
-// Handle order status updates
-socket.on('orderStatusUpdate', (data) => {
+  // Handle order status updates
+  socket.on('orderStatusUpdate', (data) => {
+    io.emit('orderStatusUpdate', data);
+  });
 
-  io.emit('orderStatusUpdate', data);
-});
-
-// Handle disconnection
-socket.on('disconnect', () =>  {
-  console.log('A client  disconnect');
-});
+  // Handle disconnection
+  socket.on('disconnect', () =>  {
+    console.log('A client disconnected');
+  });
 });
 
 // Connect to MongoDB database
@@ -81,15 +77,11 @@ mongoose
   })
   .then(() => {
     console.log('Database connection is ready...');
+    // Start the server after successful database connection
+    server.listen(port, () => {
+      console.log('Server is running on http://localhost:3000');
+    });
   })
   .catch((err) => {
     console.log(err);
   });
-
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, '../frontend/out')));
-
-  // Start the server
-app.listen(port, ()=>{
-    console.log('server is running http://localhost:3000');
-})
