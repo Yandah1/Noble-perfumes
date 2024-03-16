@@ -9,18 +9,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    passwordHash: {
-        type: String,
-        required: true,
-    },
+    //passwordHash: {
+        //type: String,
+        //required: true,
+    //},
     phone: {
         type: String,
         required: true,
     },
-    isAdmin: {
-        type: Boolean,
-        default: false,
-    },
+    //isAdmin: {
+        //type: Boolean,
+        //default: false,
+    //},
     street: {
         type: String,
         default: ''

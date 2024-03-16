@@ -36,6 +36,7 @@ const usersRoutes = require('./routes/users');
 const ordersRoutes = require('./routes/orders');
 const guestCheckoutRoutes = require('./routes/guest-checkouts');
 const paymentsRoutes = require('./routes/payments');
+const orderTrackingRoutes = require('./routes/orderTracking');
 
 
 dotenv.config();
@@ -48,6 +49,7 @@ app.use(`${api}/users`, usersRoutes);
 app.use(`${api}/orders`, ordersRoutes);
 app.use(`${api}/guest-checkouts`, guestCheckoutRoutes);
 app.use(`${api}/payments`, paymentsRoutes);
+app.use(`${api}/orderTracking`, orderTrackingRoutes);
 
 // Connect to MongoDB database
 mongoose
