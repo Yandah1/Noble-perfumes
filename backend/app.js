@@ -8,10 +8,14 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const errorHandler = require('./helpers/error-handler');
 //const authenticateToken = require('./helpers/jwt');
+const http = require('http');
+const socketIO = require('socket.io');
 
 // Create Express app
 const app = express();
 const port = 3000;
+const server = http.createServer(app);
+const io = socketIO(server);
 
 app.use(cors());
 app.options('*', cors());
@@ -36,6 +40,8 @@ const usersRoutes = require('./routes/users');
 const ordersRoutes = require('./routes/orders');
 const guestCheckoutRoutes = require('./routes/guest-checkouts');
 const paymentsRoutes = require('./routes/payments');
+const orderTrackingRoutes = require('./routes/orderTracking');
+const { Socket } = require("dgram");
 
 
 dotenv.config();
@@ -48,6 +54,23 @@ app.use(`${api}/users`, usersRoutes);
 app.use(`${api}/orders`, ordersRoutes);
 app.use(`${api}/guest-checkouts`, guestCheckoutRoutes);
 app.use(`${api}/payments`, paymentsRoutes);
+app.use(`${api}/orderTracking`, orderTrackingRoutes);
+
+// WebSocket connection
+io.on('connection', (Socket) => {
+  console.log('A new client connected');
+
+// Handle order status updates
+socket.on('orderStatusUpdate', (data) => {
+
+  io.emit('orderStatusUpdate', data);
+});
+
+// Handle disconnection
+socket.on('disconnect', () =>  {
+  console.log('A client  disconnect');
+});
+});
 
 // Connect to MongoDB database
 mongoose

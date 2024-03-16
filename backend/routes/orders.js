@@ -119,6 +119,34 @@ router.put('/:id', async (req, res) => {
     res.send(updatedOrderResult);
   });
 
+  // UPDATE order status by ID
+router.put('/:id/status', async (req, res) => {
+  const orderId = req.params.id;
+  const { status } = req.body;
+
+  try {
+    const updatedOrder = await Order.findByIdAndUpdate(
+      orderId,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).send('The order does not exist!');
+    }
+
+    // Emit the order status update event to connected clients
+    io.emit('orderStatusUpdate', {
+      orderId: updatedOrder._id,
+      status: updatedOrder.status,
+    });
+
+    res.send(updatedOrder);
+  } catch (error) {
+    res.status(400).send('The order status could not be updated!');
+  }
+});
+
   // DELETE a order by its ID
   router.delete('/:id', async (req, res) => {
     const orderId = req.params.id;

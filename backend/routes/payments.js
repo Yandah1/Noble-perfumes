@@ -1,9 +1,10 @@
-// payment.js
-
 const express = require('express');
 const router = express.Router();
 const { generatePayFastUrl } = require('../helpers/payment-gateways'); // Import function to generate PayFast payment URL
 const Payment = require('../models/payment');
+const { sendConfirmationEmail } = require('../helpers/email');
+//const { generateTrackingNumber } = require('./helpers/trackingHelpers');
+const { v4: uuidv4 } = require('uuid');
 
 // POST Endpoint for Initial Payment Processing
 router.post('/payfast', async (req, res) => {
@@ -15,7 +16,7 @@ router.post('/payfast', async (req, res) => {
         const payFastUrl = generatePayFastUrl(orderId, amount);
 
         // Respond with PayFast payment URL
-        res.status(200).json({ payFastUrl });
+        res.status(200).json({ orderId, payFastUrl });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -38,7 +39,7 @@ router.post('/notify', async (req, res) => {
             signature
         } = req.body;
 
-        // Insert or update payment information into your database
+        // Insert or update payment information to the database
         await Payment.create({
             m_payment_id,
             pf_payment_id,
@@ -52,8 +53,13 @@ router.post('/notify', async (req, res) => {
             signature
         });
 
+        // Send comfirmation email to the buyer
+        if (email_address) {
+            await sendConfirmationEmail(email_address);
+        }
+
         // Respond to the payment gateway with a success message
-        res.status(200).send('Payment notification received and database updated');
+        res.status(200).send('Payment notification received and database updated', {orderTrackingNumber});
     } catch (error) {
         console.error('Error processing payment notification:', error);
         res.status(500).send('Internal server error');
