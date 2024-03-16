@@ -142,9 +142,15 @@ router.put('/:id/status', async (req, res) => {
     });
 
     res.send(updatedOrder);
-  } catch (error) {
-    res.status(400).send('The order status could not be updated!');
-  }
+
+    } catch (error) {
+      console.error('Error updating order status:', error);
+      res.status(400).send('The order status could not be updated!');
+  
+    
+    //catch (error) {
+    //res.status(400).send('The order status could not be updated!');
+   }
 });
 
   // DELETE a order by its ID
