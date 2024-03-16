@@ -14,6 +14,7 @@
     "nodemailer": "^6.9.12",
     "nodemon": "^3.1.0",
     "prettier": "^3.2.5",
+    "socket.io": "^4.7.5",
     "uuid": "^9.0.1"
   },
   "name": "noble-perfume",
