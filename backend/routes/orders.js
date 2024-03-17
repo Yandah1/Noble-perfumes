@@ -1,8 +1,8 @@
+const express = require('express');
+const router = express.Router();
+const { default: mongoose } = require('mongoose');
 const { Order } = require('../models/order');
 const { OrderItem } = require('../models/order-item');
-const express = require('express');
-const { default: mongoose } = require('mongoose');
-const router = express.Router();
 
 
 const orderSchema = mongoose.Schema({
@@ -136,7 +136,7 @@ router.put('/:id/status', async (req, res) => {
     }
 
     // Emit the order status update event to connected clients
-    io.emit('orderStatusUpdate', {
+    req.io.emit('orderStatusUpdate', {
       orderId: updatedOrder._id,
       status: updatedOrder.status,
     });
