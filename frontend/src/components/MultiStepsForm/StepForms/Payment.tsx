@@ -2,18 +2,64 @@
 
 import PayFast, { OrderInfo } from '@/components/PayFast/page';
 import { setCurrentStep } from '@/redux/slices/stepFormSlice'
-import { Button, Flex } from 'antd'
-import React from 'react'
+import { Button, Flex, notification } from 'antd'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
 import { RootState } from '@/redux/store';
+import axios from 'axios';
 
 export default function Payment() {
   const currentStep = useSelector((store: any) => store.stepForm?.currentStep);
   const formData = useSelector((store: any) => store.stepForm?.formData);
   const cart = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
-  
+
+  const [transactionId, setTransactionId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handlePayment = async () => {
+    setIsLoading(true); // Set loading state to true when payment process starts
+    try {
+      // Make POST request to /order endpoint with the required data
+      const response = await axios.post('/order', {
+        orderItems: cart.items.map(item => ({
+          quantity: item.quantity,
+          product: item.perfume.name
+        })),
+        shippingAddress1: formData.shippingAddress1,
+        shippingAddress2: formData.shippingAddress2,
+        city: formData.city,
+        zip: formData.zip,
+        country: formData.country,
+        phone: formData.phone,
+        user: {
+          fullname: formData.fullname,
+          phone: formData.phone,
+          email: formData.email
+        }
+      });
+      
+      // Handle non-success status code
+      if (response.status !== 200) {
+        throw new Error(`Failed to process payment: ${response.statusText}`);
+      }
+
+      const { transactionId } = response.data;
+      setTransactionId(transactionId);
+      
+      // Optionally, you can handle success or redirect to payment gateway here
+    } catch (error) {
+      console.error('Error while making payment:', error);
+      notification.error({
+        message: 'Payment Error',
+        description: 'There was an error processing your payment. Please try again later.',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const total = cart.items.reduce((acc, item) => {
     const discountedPrice = item.perfume.price;
     return acc + item.quantity * discountedPrice;
@@ -23,11 +69,9 @@ export default function Payment() {
     name: formData.fullname,
     email: formData.email,
     order_no: '123456',
-    payment_id: '789012',
+    payment_id: transactionId,
     total: total,
   };
-
-  console.log(order)
 
   return (
     <div className='max-w-96'>
@@ -59,7 +103,11 @@ export default function Payment() {
         <Flex gap="small">
           <Button danger onClick={() => dispatch(setCurrentStep(currentStep - 1))}>Back</Button>
           <Button type='primary' onClick={() => history.back()}>Edit Cart</Button>
-          <Button type='primary' danger className='justify-end'>
+          <Button 
+            type='primary' danger
+            className='justify-end'
+            onClick={handlePayment}
+            loading={isLoading}>
             <PayFast order={order} />
             <p className='max-w-2xl text-sm text-gray-600'>
               <Image alt='pay_fast_banner' width={100} height={100} src="/images/PayFast_Logo_OnLightBackground_2.png" />
