@@ -26,8 +26,8 @@ module.exports = {
   deploy : {
     production_backend : {
       user : 'ubuntu',
-      key: '~/.ssh/school',
-      host : '54.152.74.112',
+      key: '~/.ssh/id_rsa.pub',
+      host : '34.204.81.17',
       ref  : 'origin/main',
       repo : 'git@github.com:Yandah1/Noble-perfumes.git',
       path : '/home/ubuntu/',
