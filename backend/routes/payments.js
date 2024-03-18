@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { generatePayFastUrl } = require('../helpers/payment-gateways'); // Import function to generate PayFast payment URL
 const Payment = require('../models/payment');
+const { Order } = require('../models/order');
 const { sendConfirmationEmail } = require('../helpers/email');
-//const { generateTrackingNumber } = require('./helpers/trackingHelpers');
+const { generateTrackingNumber } = require('./helpers/trackingHelpers');
 const { v4: uuidv4 } = require('uuid');
 
 // POST Endpoint for Initial Payment Processing
@@ -35,50 +36,69 @@ router.get('/notify', async (req, res) => {
       res.status(500).json({ error: 'Failed to process notification' });
     }
   });
-
-router.post('/notify', async (req, res) => {
+  router.post('/notify', async (req, res) => {
     try {
-        // Extract parameters from the request body
-        console.log('Payment notification received:', req.body);
-        const {
-            m_payment_id,
-            pf_payment_id,
-            payment_status,
-            amount_gross,
-            amount_fee,
-            amount_net,
-            name_first,
-            name_last,
-            email_address,
-            signature
-        } = req.body;
-
-        // Insert or update payment information to the database
-        await Payment.create({
-            m_payment_id,
-            pf_payment_id,
-            payment_status,
-            amount_gross,
-            amount_fee,
-            amount_net,
-            name_first,
-            name_last,
-            email_address,
-            signature
-        });
-
-        // Send comfirmation email to the buyer
-        if (email_address) {
-            await sendConfirmationEmail(email_address);
-        }
-
-        // Respond to the payment gateway with a success message
-        res.status(200).send('Payment notification received and database updated', {orderTrackingNumber});
+      // Extract parameters from the request body
+      console.log('Payment notification received:', req.body);
+      const {
+        m_payment_id,
+        pf_payment_id,
+        payment_status,
+        amount_gross,
+        amount_fee,
+        amount_net,
+        name_first,
+        name_last,
+        email_address,
+        signature
+      } = req.body;
+  
+      // Insert or update payment information to the database
+      await Payment.create({
+        m_payment_id,
+        pf_payment_id,
+        payment_status,
+        amount_gross,
+        amount_fee,
+        amount_net,
+        name_first,
+        name_last,
+        email_address,
+        signature
+      });
+  
+      // Perform necessary operations with the provided data
+      if (payment_status === 'completed') {
+        // Update the order status to "paid" in your database
+        await Order.updateOne(
+          { orderId: m_payment_id },
+          { $set: { status: 'paid' } }
+        );
+  
+        // Generate a tracking number for the order
+        const trackingNumber = generateTrackingNumber();
+  
+        // Associate the tracking number with the payment or order
+        await Order.updateOne(
+          { orderId: m_payment_id },
+          { $set: { trackingNumber: trackingNumber } }
+        );
+  
+        // Send a notification to the customer
+        await sendNotificationToCustomer(email_address, 'Your payment is successful. Your tracking number is ' + trackingNumber);
+      }
+  
+      // Send confirmation email to the buyer
+      if (email_address) {
+        await sendConfirmationEmail(email_address);
+      }
+  
+      // Respond to the payment gateway with a success message
+      res.status(200).send('Payment notification received and database updated');
     } catch (error) {
-        console.error('Error processing payment notification:', error);
-        res.status(500).send('Internal server error');
+      console.error('Error processing payment notification:', error);
+      res.status(500).send('Internal server error');
     }
-});
-
+  });
 
 module.exports = router;
