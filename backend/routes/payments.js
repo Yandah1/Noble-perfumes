@@ -22,6 +22,20 @@ router.post('/payfast', async (req, res) => {
     }
 });
 
+router.get('/notify', async (req, res) => {
+    try {
+      // Access parameters or query parameters as needed
+      const { orderId } = req.query;
+  
+      // Perform necessary operations with the provided data
+  
+      res.status(200).json({ message: 'Notification received' });
+    } catch (error) {
+      console.error('Error processing notification:', error);
+      res.status(500).json({ error: 'Failed to process notification' });
+    }
+  });
+
 router.post('/notify', async (req, res) => {
     try {
         // Extract parameters from the request body
