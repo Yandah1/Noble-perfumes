@@ -8,20 +8,21 @@ import { RootState } from '@/redux/store';
 export async function handlePayment (setLoading: React.Dispatch<React.SetStateAction<boolean>>) {
     const cart = useSelector((state: RootState) => state.cart);
     const formData = useSelector((store: any) => store.stepForm?.formData);
+    console.log(formData)
     setLoading(true);
 
     try {
         // Make POST request to /order endpoint with the required data
-        const response = await axios.post('/order', {
+        const response = await axios.post('http://backend.nobleperfumes.store/api/v1/orders', {
         orderItems: cart.items.map(item => ({
             quantity: item.quantity,
             product: item.perfume.name
         })),
-        shippingAddress1: formData.shippingAddress1,
-        shippingAddress2: formData.shippingAddress2,
+        shippingAddress1: formData.street_address,
+        shippingAddress2: formData.building,
         city: formData.city,
-        zip: formData.zip,
-        country: formData.country,
+        zip: formData.postal_code,
+        country: "South Africa",
         phone: formData.phone,
         user: {
             fullname: formData.fullname,
@@ -29,6 +30,8 @@ export async function handlePayment (setLoading: React.Dispatch<React.SetStateAc
             email: formData.email
         }
         });
+
+        console.log(response)
         
         // Handle non-success status code
         if (response.status !== 200) {

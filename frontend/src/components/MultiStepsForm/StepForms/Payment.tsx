@@ -2,18 +2,18 @@
 
 import PayFast from '@/components/PayFast/page';
 import { setCurrentStep } from '@/redux/slices/stepFormSlice'
-import { Button, Flex, notification } from 'antd'
-import React, { useState } from 'react'
+import { Button, Flex } from 'antd'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import Image from 'next/image';
 import { RootState } from '@/redux/store';
-import usePaymentHandler from '@/hooks/usePaymentHandler';
 
 export default function Payment() {
   const currentStep = useSelector((store: any) => store.stepForm?.currentStep);
-  const { orderInfo } = usePaymentHandler();
   const cart = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
+
+  const formData = useSelector((store: any) => store.stepForm?.formData);
+  console.log(formData)
 
   // Calculate total price
   const total = cart.items.reduce((acc, item) => {
@@ -33,7 +33,7 @@ export default function Payment() {
               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                 <div className='mb-2'>
                   {cart.items.map((item, index) => (
-                    <div className='mb-2'>
+                    <div key={item.perfume._id} className='mb-2'>
                         <p>{index + 1}. {item.perfume.name}</p>
                         <span>{item.perfume.size}ml x{item.quantity}</span>
                         <hr />
@@ -52,9 +52,6 @@ export default function Payment() {
           <Button danger onClick={() => dispatch(setCurrentStep(currentStep - 1))}>Back</Button>
           <Button type='primary' onClick={() => history.back()}>Edit Cart</Button>
             <PayFast />
-            <p className='max-w-2xl text-sm text-gray-600'>
-              <Image className='leading-10' alt='pay_fast_banner' width={100} height={10} src="/images/PayFast_Logo_OnLightBackground_2.png" />
-            </p>
         </Flex>
       </div>
     </div>
