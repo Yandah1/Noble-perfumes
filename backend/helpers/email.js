@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const dotenv = require("dotenv");
 
 // Create a transporter using your email service provider's SMTP settings
 const transporter = nodemailer.createTransport({
