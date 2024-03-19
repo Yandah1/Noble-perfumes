@@ -1,50 +1,70 @@
-import React from 'react'
-import { generateSignature } from '@/utils/utilities';
+"use client"
+import React, { useState } from 'react';
+import { Button, notification } from 'antd';
+import Image from 'next/image';
+import axios from 'axios';
+import { generateOrderNumber, handlePayment, handleStatusUpdate } from '@/utils/utilities';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { setCurrentStep } from '@/redux/slices/stepFormSlice';
 
-export interface OrderInfo {
-    name: string;
-    email: string;
-    order_no: string;
-    payment_id: string;
-    total: number;
-  }
+const PayFast: React.FC = () => {
+    const currentStep = useSelector((store: any) => store.stepForm?.currentStep);
+    const formData = useSelector((store: any) => store.stepForm?.formData);
+    const cart = useSelector((state: RootState) => state.cart);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const dispatch = useDispatch();
 
-export default function PayFast({ order }: { order: OrderInfo }) {
-    const cartTotal: number = order.total; // This amount needs to be sourced from your application
-    const passPhrase: string = "nobleperfumes"
-    const data: any = {
-        // Merchant details
-        'merchant_id': '10032903',
-        'merchant_key': 'runrf7hq41f3s',
-        'return_url': 'http://nobleperfumes.store',
-        'cancel_url': 'http://nobleperfumes.store',
-        'notify_url': 'http://34.204.81.17:3000/api/v1/payments/notify',
-        // Buyer details
-        'name_first': `${order.name}`,
-        'email_address': `${order.email}`,
-        // Transaction details
-        'm_payment_id': `${order.payment_id}`, // Unique payment ID to pass through to notify_url
-        'amount': Number((cartTotal).toFixed(2)),
-        'item_name': `${order.order_no}`,
+    const handlePaymentButtonClick = async () => {
+        try {
+            setIsLoading(true);
+
+            // Call handlePayment function to initiate the payment process
+            const pay = await handlePayment(setIsLoading, cart, formData);
+            JSON.parse(pay?.transactionId)
+
+            const orderInfo = {
+                merchant_id: "10032903",
+                merchant_key: "runrf7hq41f3s",
+                return_url: `http://localhost:3000/success?transaction_id=${pay?.transactionId}`,
+                cancel_url: `http://nobleperfumes.store?transaction_id=${pay?.transactionId}`,
+                notify_url: "http://34.204.81.17:3000/api/v1/payments/notify",
+                name_first: formData.fullname,
+                email_address: formData.email,
+                item_name: generateOrderNumber(), // Dynamically generate order number
+                m_payment_id: pay?.transactionId,
+                amount: pay?.total ?? 0,
+                signature: ''
+            };
+
+            // Make a POST request to your payment API endpoint
+            const response = await axios.post('/api/payments', orderInfo);
+            if(response.status == 200){
+                await handleStatusUpdate(pay?.transactionId, "Pending")
+                window.open(response.data.payFastPaymentURL)
+            }
+
+        } catch (error) {
+            console.error('Error while processing payment:', error);
+            // Payment failed, show error notification
+            notification.error({
+                message: 'Payment Error',
+                description: 'There was an error processing your payment. Please try again later.',
+            });
+        } finally {
+            setIsLoading(false);
+            
+        }
     };
 
-    const signature: string = generateSignature(data, passPhrase);
-    data['signature'] = signature;
-
-    // If in testing mode make use of either sandbox.payfast.co.za or www.payfast.co.za
-    const testingMode: boolean = true;
-    const pfHost: string = testingMode ? 'sandbox.payfast.co.za' : 'www.payfast.co.za';
-
-    let htmlForm: string = `<form action="https://${pfHost}/eng/process" method="post">`;
-    for (const [name, value] of Object.entries(data)) {
-        htmlForm += `<input name="${name}" type="hidden" value='${value}' />`;
-    }
-    htmlForm += '<input type="submit" value="Pay Now" /></form>';
-
     return (
-        <div>
-            {/* Render HTML content using dangerouslySetInnerHTML */}
-            <div dangerouslySetInnerHTML={{ __html: htmlForm }} />
-        </div>
+        <Button loading={isLoading} onClick={handlePaymentButtonClick}>
+            Pay Now
+            <p className='max-w-2xl text-sm text-gray-600'>
+              <Image className='leading-10' alt='pay_fast_banner' width={100} height={10} src="/images/PayFast_Logo_OnLightBackground_2.png" />
+            </p>
+        </Button>
     );
-}
+};
+
+export default PayFast;
