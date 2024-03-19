@@ -9,7 +9,7 @@ const theme: ThemeConfig = {
   },
   components: {
     Button: {
-      colorBgContainer: "#ffffff00"
+      colorBgContainer: "#ffffff00",
     },
     Drawer: {
       colorIcon: "white"

@@ -7,9 +7,9 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="border-t border-gray-400">
+    <div className="border-t border-gray-400" style={{color: "#22d3ee"}} >
       <div className="h-6 my-5">
-        <div className="flex gap-3 justify-center">
+        <div className="flex gap-3 justify-center ">
           <Button type='link'>
             <Link href="/about">
               About the Developers
