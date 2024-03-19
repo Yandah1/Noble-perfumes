@@ -2,62 +2,57 @@ import { notification } from 'antd';
 import { client } from '../../sanity/lib/client';
 import * as crypto from 'crypto';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { format } from 'date-fns';
 
-export async function handlePayment (setLoading: React.Dispatch<React.SetStateAction<boolean>>) {
-    const cart = useSelector((state: RootState) => state.cart);
-    const formData = useSelector((store: any) => store.stepForm?.formData);
-    console.log(formData)
+export async function handlePayment(setLoading: React.Dispatch<React.SetStateAction<boolean>>, cart: any, formData: any) {
     setLoading(true);
 
     try {
         // Make POST request to /order endpoint with the required data
-        const response = await axios.post('http://backend.nobleperfumes.store/api/v1/orders', {
-        orderItems: cart.items.map(item => ({
-            quantity: item.quantity,
-            product: item.perfume.name
-        })),
-        shippingAddress1: formData.street_address,
-        shippingAddress2: formData.building,
-        city: formData.city,
-        zip: formData.postal_code,
-        country: "South Africa",
-        phone: formData.phone,
-        user: {
-            fullname: formData.fullname,
+        const response = await axios.post('/api/orders', {
+            orderItems: cart.items.map((item:any) => ({
+                quantity: item.quantity,
+                product: item.perfume.name
+            })),
+            shippingAddress1: formData.street_address,
+            shippingAddress2: formData.building,
+            city: formData.city,
+            zip: formData.postal_code,
+            country: "South Africa",
             phone: formData.phone,
-            email: formData.email
-        }
+            user: {
+                fullname: formData.fullname,
+                phone: formData.phone,
+                email: formData.email
+            }
         });
 
-        console.log(response)
-        
         // Handle non-success status code
         if (response.status !== 200) {
-        throw new Error(`Failed to process payment: ${response.statusText}`);
+            throw new Error(`Failed to process payment: ${response.statusText}`);
         }
 
         // Calculate total price
-        const total = cart.items.reduce((acc, item) => {
+        const total = cart.items.reduce((acc: number, item: any) => {
             const discountedPrice = item.perfume.price;
             return acc + item.quantity * discountedPrice;
         }, 0);
 
         const { transactionId } = response.data;
-        return {transactionId, total};
+        return { transactionId, total };
 
     } catch (error) {
         console.error('Error while making payment:', error);
         notification.error({
-        message: 'Payment Error',
-        description: 'There was an error processing your payment. Please try again later.',
+            message: 'Payment Error',
+            description: 'There was an error processing your payment. Please try again later.',
         });
         return null; // Return null if payment fails
     } finally {
         setLoading(false);
     }
 };
+
 
 export async function handleStatusUpdate(orderId: string, status: string): Promise<void> {
     try {
@@ -105,6 +100,12 @@ export function generateSignature(data: PaymentData, passPhrase: string | null =
 
     return crypto.createHash('md5').update(pfOutput).digest('hex');
 };
+
+export const generateOrderNumber = (): string => {
+    const timestamp = format(new Date(), 'yyyyMMddHHmmss');
+    const orderNumber = `ORD#${timestamp}`;
+    return orderNumber;
+  };
 
 export function assertValue<T>(v: T | undefined, errorMessage: string): T {
     if (v === undefined) {

@@ -12,9 +12,6 @@ export default function Payment() {
   const cart = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
 
-  const formData = useSelector((store: any) => store.stepForm?.formData);
-  console.log(formData)
-
   // Calculate total price
   const total = cart.items.reduce((acc, item) => {
     const discountedPrice = item.perfume.price;
