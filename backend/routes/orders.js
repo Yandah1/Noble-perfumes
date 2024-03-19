@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { default: mongoose } = require('mongoose');
-const { Order } = require('../models/order');
+const { Order } = require('../models/order...');
 const { OrderItem } = require('../models/order-item');
 
 
@@ -65,7 +65,7 @@ router.post('/', async (req, res) => {
     phone: req.body.phone,
     status: req.body.status,
     totalPrice: req.body.totalPrice,
-    user: req.body.user
+    //user: req.body.user
   });
   order = await order.save();
 
