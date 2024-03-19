@@ -3,6 +3,7 @@ import { client } from '../../sanity/lib/client';
 import * as crypto from 'crypto';
 import axios from 'axios';
 import { format } from 'date-fns';
+import { groq } from 'next-sanity';
 
 export async function handlePayment(setLoading: React.Dispatch<React.SetStateAction<boolean>>, cart: any, formData: any) {
     setLoading(true);
@@ -56,17 +57,27 @@ export async function handlePayment(setLoading: React.Dispatch<React.SetStateAct
 
 export async function handleStatusUpdate(orderId: string, status: string): Promise<void> {
     try {
+        const data = await client.fetch(
+            groq`
+                *[_type == "order"] {
+                _id,
+                }
+            `
+            );
+
+            console.log(data[0]._id)
         await client
-        .patch(`${orderId}`)
-        .set({ status })
-        .commit();
+            .patch(data[0]._id)
+            .set({ status: 'Processing' })
+            .commit();
     } catch (error) {
         notification.error({
-        message: 'Update Error:',
-        description: 'There was an error updating your order status. No action from you required, the team has been alerted.',
+            message: `Update Error: ${error}`,
+            description: 'There was an error updating your order status. No action from you required, the team has been alerted.',
         });
     }
 }
+
 
 interface PaymentData {
     [key: string]: any;

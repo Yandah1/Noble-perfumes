@@ -5,10 +5,13 @@ import { Button } from 'antd';
 import { useRouter } from 'next/navigation'
 import { useDispatch } from 'react-redux';
 import { setCurrentStep } from '@/redux/slices/stepFormSlice';
+import { handleStatusUpdate } from '@/utils/utilities';
 
 const PaymentSuccess = () => {
   const dispatch = useDispatch();
   const router = useRouter()
+
+  //handleStatusUpdate()
   
   useEffect(() => {    
     // Redirect to home page after 5 seconds regardless of transactionId

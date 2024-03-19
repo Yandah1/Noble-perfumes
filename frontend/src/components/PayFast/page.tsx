@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button, notification } from 'antd';
 import Image from 'next/image';
 import axios from 'axios';
-import { generateOrderNumber, handlePayment } from '@/utils/utilities';
+import { generateOrderNumber, handlePayment, handleStatusUpdate } from '@/utils/utilities';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { setCurrentStep } from '@/redux/slices/stepFormSlice';
@@ -40,6 +40,7 @@ const PayFast: React.FC = () => {
             // Make a POST request to your payment API endpoint
             const response = await axios.post('/api/payments', orderInfo);
             if(response.status == 200){
+                await handleStatusUpdate(pay?.transactionId, "Pending")
                 window.open(response.data.payFastPaymentURL)
             }
 

@@ -14,15 +14,6 @@ export default {
         name: 'status',
         title: 'Status',
         type: 'string',
-        options: {
-          list: [
-            { title: 'Pending', value: 'pending' },
-            { title: 'Processing', value: 'processing' },
-            { title: 'Shipped', value: 'shipped' },
-            { title: 'Delivered', value: 'delivered' }
-          ],
-          layout: 'radio' // Display as radio buttons
-        },
         validation: (Rule: any) => Rule.required()
       }
     ]
