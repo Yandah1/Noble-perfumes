@@ -1,7 +1,7 @@
 export const apiVersion =
   process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2024-03-02'
-export const dataset = "production"
-export const projectId = "3pi1k2ye"
+export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
+export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 export const useCdn = false
-export const token = "skvhZC6DsPeUbyJWik3VPBSH8MoswCi2HnqJRemo8k7RTEoap5jZrfqYCSB8ZgE90k7pKviH91wXP42xT9l1jE18RmLJGijIlA1Ks5MjF2fXLLISmUaTvKHPYZznb85S5bd5VbNB1gqCDly1hSWFiYJNOoLXvuD0VBn5w9fqw54uikmUPTbd"
+export const token = process.env.SANITY_API_TOKEN
 
