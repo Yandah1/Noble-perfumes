@@ -1,8 +1,8 @@
+const express = require('express');
+const router = express.Router();
+const { default: mongoose } = require('mongoose');
 const { Order } = require('../models/order');
 const { OrderItem } = require('../models/order-item');
-const express = require('express');
-const { default: mongoose } = require('mongoose');
-const router = express.Router();
 
 
 const orderSchema = mongoose.Schema({
@@ -13,6 +13,7 @@ const orderSchema = mongoose.Schema({
   }]
 });
 
+// GET order list
 router.get('/', async (req, res) => {
   const orderList = await Order.find().populate('user', 'name').sort({ 'dateOrdered': -1 });
 
@@ -22,6 +23,7 @@ router.get('/', async (req, res) => {
   res.send(orderList);
 });
 
+// GET a specific order by its ID
 router.get(`/:id`, async (req, res) =>{
   const order = await Order.findById(req.params.id)
   .populate('user', 'name')
@@ -36,6 +38,7 @@ router.get(`/:id`, async (req, res) =>{
   res.send(order);
 })
 
+// CREATE a new order
 router.post('/', async (req, res) => {
   const orderItemsIds = await Promise.all(req.body.orderItems.map(async (orderItem) => {
     let newOrderItem = new OrderItem({
@@ -69,6 +72,7 @@ router.post('/', async (req, res) => {
   res.send(order);
 });
 
+// UPDATE an order by ID
 router.put('/:id', async (req, res) => {
     const orderId = req.params.id;
     const updatedOrder = req.body;
@@ -115,6 +119,41 @@ router.put('/:id', async (req, res) => {
     res.send(updatedOrderResult);
   });
 
+  // UPDATE order status by ID
+//router.put('/:id/status', async (req, res) => {
+  //const orderId = req.params.id;
+  //const { status } = req.body;
+
+ // try {
+    //const updatedOrder = await Order.findByIdAndUpdate(
+    //  orderId,
+     // { status },
+    //  { new: true }
+  //  );
+
+   // if (!updatedOrder) {
+     // return res.status(404).send('The order does not exist!');
+   // }
+
+    // Emit the order status update event to connected clients
+   // req.io.emit('orderStatusUpdate', {
+    //  orderId: updatedOrder._id,
+   //   status: updatedOrder.status,
+   // });
+
+   // res.send(updatedOrder);
+
+  //  } catch (error) {
+   //   console.error('Error updating order status:', error);
+    //  res.status(400).send('The order status could not be updated!');
+  
+    
+    //catch (error) {
+    //res.status(400).send('The order status could not be updated!');
+  // }
+//});
+
+  // DELETE a order by its ID
   router.delete('/:id', async (req, res) => {
     const orderId = req.params.id;
   
@@ -142,6 +181,7 @@ router.put('/:id', async (req, res) => {
     res.send({totalsales: totalSales.pop().totalsales})
 })
 
+// GET order count
 router.get('/get/count', async (req, res) => {
     try {
       const orderCount = await Order.countDocuments();
