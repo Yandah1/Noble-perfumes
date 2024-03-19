@@ -22,7 +22,7 @@ export async function handlePayment(setLoading: React.Dispatch<React.SetStateAct
             country: "South Africa",
             phone: formData.phone,
             user: {
-                fullname: formData.fullname,
+                name: formData.fullname,
                 phone: formData.phone,
                 email: formData.email
             }
