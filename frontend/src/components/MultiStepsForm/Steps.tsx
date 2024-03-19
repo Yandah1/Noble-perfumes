@@ -13,7 +13,6 @@ export default function StepsComponent() {
         <Steps.Step title={<span className="font-bold text-gray-400">Contact info</span>} icon={<UserOutlined />} />
         <Steps.Step title={<span className="font-bold text-gray-400">Delivery Address</span>} icon={<CarOutlined />} />
         <Steps.Step title={<span className="font-bold text-gray-400">Payment</span>} icon={<BankOutlined />} />
-        <Steps.Step title={<span className="font-bold text-gray-400">Success</span>} icon={<CheckCircleOutlined />} />
       </Steps>
     </div>
   );

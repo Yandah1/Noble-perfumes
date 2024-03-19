@@ -5,7 +5,6 @@ import React from 'react'
 import DeliveryAddressForm from './StepForms/DeliveryAddressForm';
 import PersonalInfoForm from './StepForms/PersonalInfoForm';
 import Payment from './StepForms/Payment';
-import PaymentSuccess from './StepForms/Success';
 
 export default function StepForm() {
   const currentStep = useSelector((state: any) => state.stepForm?.currentStep);
@@ -17,8 +16,6 @@ export default function StepForm() {
       return <DeliveryAddressForm />
     } else if (step === 2) {
       return <Payment />
-    } else if (step === 3) {
-      return <PaymentSuccess />
     }
   }
   return (

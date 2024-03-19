@@ -38,7 +38,6 @@ export default function PersonalInfoForm() {
     dispatch(updateFormData(data));
 
     dispatch(setCurrentStep(currentStep + 1));
-    console.log(formData);
   }
 
   const [form] = Form.useForm();

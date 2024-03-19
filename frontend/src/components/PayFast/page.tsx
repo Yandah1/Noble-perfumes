@@ -4,13 +4,16 @@ import { Button, notification } from 'antd';
 import Image from 'next/image';
 import axios from 'axios';
 import { generateOrderNumber, handlePayment } from '@/utils/utilities';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { setCurrentStep } from '@/redux/slices/stepFormSlice';
 
 const PayFast: React.FC = () => {
+    const currentStep = useSelector((store: any) => store.stepForm?.currentStep);
     const formData = useSelector((store: any) => store.stepForm?.formData);
     const cart = useSelector((state: RootState) => state.cart);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const dispatch = useDispatch();
 
     const handlePaymentButtonClick = async () => {
         try {
@@ -23,7 +26,7 @@ const PayFast: React.FC = () => {
             const orderInfo = {
                 merchant_id: "10032903",
                 merchant_key: "runrf7hq41f3s",
-                return_url: `http://nobleperfumes.store?transaction_id=${pay?.transactionId}`,
+                return_url: `http://localhost:3000/success?transaction_id=${pay?.transactionId}`,
                 cancel_url: `http://nobleperfumes.store?transaction_id=${pay?.transactionId}`,
                 notify_url: "http://34.204.81.17:3000/api/v1/payments/notify",
                 name_first: formData.fullname,
@@ -34,13 +37,10 @@ const PayFast: React.FC = () => {
                 signature: ''
             };
 
-            
-
             // Make a POST request to your payment API endpoint
             const response = await axios.post('/api/payments', orderInfo);
             if(response.status == 200){
-                console.log(response.data)
-                window.open(response.data.payFastPaymentURL, '_blank')
+                window.open(response.data.payFastPaymentURL)
             }
 
         } catch (error) {
@@ -52,6 +52,7 @@ const PayFast: React.FC = () => {
             });
         } finally {
             setIsLoading(false);
+            
         }
     };
 

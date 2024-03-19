@@ -2,14 +2,18 @@
 import React, { useEffect } from 'react';
 import { CheckCircleOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'
+import { useDispatch } from 'react-redux';
+import { setCurrentStep } from '@/redux/slices/stepFormSlice';
 
 const PaymentSuccess = () => {
-  const router = useRouter();
-
-  useEffect(() => {
-    // Redirect to home page after 5 seconds
+  const dispatch = useDispatch();
+  const router = useRouter()
+  
+  useEffect(() => {    
+    // Redirect to home page after 5 seconds regardless of transactionId
     const timeout = setTimeout(() => {
+      dispatch(setCurrentStep(0));
       router.push('/ecommerce');
     }, 5000);
 
@@ -18,11 +22,12 @@ const PaymentSuccess = () => {
   }, []);
 
   const handleReturnHome = () => {
+    //dispatch(setCurrentStep(0));
     router.push('/ecommerce');
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-cente h-screen">
       <div className="text-green-500 text-5xl mb-4">
         <CheckCircleOutlined />
       </div>
