@@ -40,6 +40,10 @@ router.get(`/:id`, async (req, res) =>{
 
 // CREATE a new order
 router.post('/', async (req, res) => {
+
+  if (!req.body.orderItems || !Array.isArray(req.body.orderItems)) {
+    return res.status(400).send('Invalid order items data');
+}
   const orderItemsIds = await Promise.all(req.body.orderItems.map(async (orderItem) => {
     let newOrderItem = new OrderItem({
       quantity: orderItem.quantity,
