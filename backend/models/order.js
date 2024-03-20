@@ -28,7 +28,7 @@ const orderSchema = mongoose.Schema({
     phone: {
         type: String,
         required: true,
-    },
+    },    
     status: {
         type: String,
         required: true,
@@ -40,6 +40,10 @@ const orderSchema = mongoose.Schema({
     user: {
         type: String,
         ref: 'User',
+    },
+    transactionId: {
+        type : String,
+        required: true,
     },
     dateOrdered: {
         type: Date,
