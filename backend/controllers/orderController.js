@@ -1,6 +1,6 @@
 const Order = require('../models/order');
 const { OrderItem } = require('../models/order-item');
-const User = require('../models/user');
+const { User } = require('../models/user');
 
 exports.createOrder = async (req, res) => {
     try {
