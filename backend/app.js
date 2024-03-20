@@ -3,7 +3,6 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const morgan = require('morgan');
 const cors = require('cors'); 
-//require('dotenv/config');
 const Product = require("./models/product");
 const jwt = require('jsonwebtoken');
 const path = require('path');
@@ -70,15 +69,13 @@ io.on('connection', (socket) => { // Corrected parameter name
 });
 
 // Connect to MongoDB database
-mongoose
-  .connect(process.env.CONNECT_DB, {
+mongoose.connect(process.env.CONNECT_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     dbName: 'noble-perfumes'
   })
   .then(() => {
-    //console.log('Database connection is ready...');
-    console.log('CONNECT_DB:', process.env.CONNECT_DB);
+    console.log('Database connection is ready...');
     // Start the server after successful database connection
     server.listen(port, () => {
       console.log('Server is running on http://localhost:3000');
