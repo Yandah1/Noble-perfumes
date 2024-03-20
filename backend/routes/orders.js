@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { default: mongoose } = require('mongoose');
-const { Order } = require('../models/order...');
+//const { Order } = require('../models/order...');
 const { OrderItem } = require('../models/order-item');
+const orderController = require('../controllers/orderController');
 
 
 const orderSchema = mongoose.Schema({
@@ -38,42 +39,9 @@ router.get(`/:id`, async (req, res) =>{
   res.send(order);
 })
 
-// CREATE a new order
-router.post('/', async (req, res) => {
+// POST - Create a new order
+router.post('/', orderController.createOrder);
 
-  //if (!req.body.orderItems || !Array.isArray(req.body.orderItems)) {
-    //return res.status(400).send('Invalid order items data');
-//}
-  const orderItemsIds = await Promise.all(req.body.orderItems.map(async (orderItem) => {
-    let newOrderItem = new OrderItem({
-      quantity: orderItem.quantity,
-      product: orderItem.product
-    });
-
-    newOrderItem = await newOrderItem.save();
- newOrderItem._id;
-  }));
-
-  let order = new Order({
-    name: req.body.name,
-    orderItems: orderItemsIds,
-    shippingAddress1: req.body.shippingAddress1,
-    shippingAddress2: req.body.shippingAddress2,
-    city: req.body.city,
-    zip: req.body.zip,
-    country: req.body.country,
-    phone: req.body.phone,
-    status: req.body.status,
-    totalPrice: req.body.totalPrice,
-    //user: req.body.user
-  });
-  order = await order.save();
-
-  if (!order)
-    return res.status(400).send('The order cannot be created!');
-
-  res.send(order);
-});
 
 // UPDATE an order by ID
 router.put('/:id', async (req, res) => {

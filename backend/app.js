@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const morgan = require('morgan');
 const cors = require('cors'); 
+//require('dotenv/config');
 const Product = require("./models/product");
 const jwt = require('jsonwebtoken');
 const path = require('path');
@@ -76,7 +77,8 @@ mongoose
     dbName: 'noble-perfumes'
   })
   .then(() => {
-    console.log('Database connection is ready...');
+    //console.log('Database connection is ready...');
+    console.log('CONNECT_DB:', process.env.CONNECT_DB);
     // Start the server after successful database connection
     server.listen(port, () => {
       console.log('Server is running on http://localhost:3000');

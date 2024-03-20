@@ -1,30 +1,58 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-// Define sub-document schema for order items
-const OrderItemSchema = new Schema({
-    quantity: Number,
-    product: String
-});
-
-// Define main schema for orders
-const OrderSchema = new Schema({
-    orderItems: [OrderItemSchema],
-    shippingAddress1: String,
-    shippingAddress2: String,
-    city: String,
-    zip: String,
-    country: String,
-    phone: String,
-    user: {
-        name: String,
-        phone: String,
-        email: String
+const orderSchema = mongoose.Schema({
+    orderItems: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'OrderItem',
+        required:true
+    }],
+    shippingAddress1: {
+        type: String,
+        required: true,
     },
-    transactionId: String,
-    status: String
+    shippingAddress2: {
+        type: String,
+    },
+    city: {
+        type: String,
+        required: true,
+    },
+    zip: {
+        type: String,
+        required: true,
+    },
+    country: {
+        type: String,
+        required: true,
+    },
+    phone: {
+        type: String,
+        required: true,
+    },
+    status: {
+        type: String,
+        required: true,
+        default: 'Pending',
+    },
+    totalPrice: {
+        type: Number,
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
+    dateOrdered: {
+        type: Date,
+        default: Date.now,
+    },
+})
+
+orderSchema.virtual('id').get(function () {
+    return this._id.toHexString();
 });
 
-const Order = mongoose.model('Order', OrderSchema);
+orderSchema.set('toJSON', {
+    virtuals: true,
+});
 
-module.exports = Order;
+exports.Order = mongoose.model('Order', orderSchema);

@@ -4,7 +4,7 @@ const { generatePayFastUrl } = require('../helpers/payment-gateways'); // Import
 const Payment = require('../models/payment');
 const { Order } = require('../models/order');
 const { sendConfirmationEmail } = require('../helpers/email');
-const { generateTrackingNumber } = require('./helpers/trackingHelpers');
+const { generateTrackingNumber } = require('../helpers/trackingHelpers');
 const { v4: uuidv4 } = require('uuid');
 
 // POST Endpoint for Initial Payment Processing
