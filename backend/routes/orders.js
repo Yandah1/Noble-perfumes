@@ -78,7 +78,8 @@ router.put('/:id', async (req, res) => {
       phone: updatedOrder.phone,
       status: updatedOrder.status,
       totalPrice: updatedOrder.totalPrice,
-      user: updatedOrder.user
+      //user: updatedOrder.user
+      user: JSON.stringify(updatedOrder.user)
     };
   
     const updatedOrderResult = await Order.findByIdAndUpdate(orderId, updatedOrderData, { new: true });
