@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const orderSchema = mongoose.Schema({
     orderItems: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.String,
         ref: 'OrderItem',
         required:true
     }],
@@ -38,7 +38,7 @@ const orderSchema = mongoose.Schema({
         type: Number,
     },
     user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.String,
         ref: 'User',
     },
     dateOrdered: {
