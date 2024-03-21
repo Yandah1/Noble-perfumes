@@ -2,8 +2,14 @@ const mongoose = require('mongoose');
 
 // Define the schema for the Payment model
 const paymentSchema = new mongoose.Schema({
-    m_payment_id: String,
-    pf_payment_id: Number,
+    m_payment_id: {
+        type: String,
+        required: true,
+    },
+    pf_payment_id: {
+        type: String,
+        require : true,
+    },
     payment_status: String,
     amount_gross: Number,
     amount_fee: Number,
