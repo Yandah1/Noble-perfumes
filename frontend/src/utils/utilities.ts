@@ -5,52 +5,36 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import { groq } from 'next-sanity';
 
-export async function handlePayment(setLoading: React.Dispatch<React.SetStateAction<boolean>>, cart: any, formData: any) {
-    setLoading(true);
+export async function placeOrder(cart: any, formData: any) {
+    
+    const data = {
+        orderItems: cart.items.map((item:any) => ({
+            quantity: item.quantity,
+            product: item.perfume.name
+        })),
+        shippingAddress1: formData.street_address,
+        shippingAddress2: formData.building,
+        city: formData.city,
+        zip: formData.postal_code,
+        country: "South Africa",
+        phone: formData.phone,
+        user: {
+            name: formData.fullname,
+            phone: formData.phone,
+            email: formData.email
+        },
+        transactionId: "",
+        status: "Awaiting Payment"
+    }
 
     try {
         // Make POST request to /order endpoint with the required data
-        const response = await axios.post('/api/orders', {
-            orderItems: cart.items.map((item:any) => ({
-                quantity: item.quantity,
-                product: item.perfume.name
-            })),
-            shippingAddress1: formData.street_address,
-            shippingAddress2: formData.building,
-            city: formData.city,
-            zip: formData.postal_code,
-            country: "South Africa",
-            phone: formData.phone,
-            user: {
-                name: formData.fullname,
-                phone: formData.phone,
-                email: formData.email
-            }
-        });
-
-        // Handle non-success status code
-        if (response.status !== 200) {
-            throw new Error(`Failed to process payment: ${response.statusText}`);
-        }
-
-        // Calculate total price
-        const total = cart.items.reduce((acc: number, item: any) => {
-            const discountedPrice = item.perfume.price;
-            return acc + item.quantity * discountedPrice;
-        }, 0);
-
-        const { transactionId } = response.data;
-        return { transactionId, total };
-
+        return await axios.post('http://backend.nobleperfumes.store:3000/api/v1/orders', data);
     } catch (error) {
-        console.error('Error while making payment:', error);
         notification.error({
             message: 'Payment Error',
             description: 'There was an error processing your payment. Please try again later.',
         });
-        return null; // Return null if payment fails
-    } finally {
-        setLoading(false);
     }
 };
 
@@ -59,22 +43,41 @@ export async function handleStatusUpdate(orderId: string, status: string): Promi
     try {
         const data = await client.fetch(
             groq`
-                *[_type == "order"] {
-                _id,
-                }
-            `
-            );
-
-            console.log(data[0]._id)
+                *[_type == "order" && order_id == $orderId] {
+                    _id,
+                    order_id,
+                    status
+                }[0]  // Limiting to the first result (if any)
+            `,
+            { orderId } // Parameterized query
+        );
+        console.log(data)
         await client
-            .patch(data[0]._id)
-            .set({ status: 'Processing' })
+            .patch(data._id)
+            .set({ status: `${status}` })
             .commit();
     } catch (error) {
         notification.error({
             message: `Update Error: ${error}`,
             description: 'There was an error updating your order status. No action from you required, the team has been alerted.',
         });
+    }
+}
+
+// Function to create a new order document
+export async function createOrder(orderId: string, status: string) {
+    try {
+        // Create operation
+        await client
+            .create({
+                _type: 'order', 
+                order_id: orderId,
+                status: status
+            })
+            .then(res => console.log('Order created successfully:', res))
+            .catch(err => console.error('Error creating order:', err));
+    } catch (error) {
+        console.error('Error creating order.');
     }
 }
 
@@ -102,21 +105,19 @@ export function generateSignature(data: PaymentData, passPhrase: string | null =
 
     // Remove last ampersand
     const getString = pfOutput.slice(0, -1);
-
+    
     if (passPhrase !== null) {
         pfOutput += `passphrase=${encodeURIComponent(passPhrase.trim()).replace(/%20/g, '+')}`;
     }
-
-    console.log(pfOutput);
 
     return crypto.createHash('md5').update(pfOutput).digest('hex');
 };
 
 export const generateOrderNumber = (): string => {
     const timestamp = format(new Date(), 'yyyyMMddHHmmss');
-    const orderNumber = `ORD#${timestamp}`;
+    const orderNumber = timestamp;
     return orderNumber;
-  };
+};
 
 export function assertValue<T>(v: T | undefined, errorMessage: string): T {
     if (v === undefined) {
