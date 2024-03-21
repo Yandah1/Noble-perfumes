@@ -70,11 +70,15 @@ router.get('/notify', async (req, res) => {
       // Perform necessary operations with the provided data
       if (payment_status === 'completed') {
         // Update the order status to "paid" in your database
+        //await Order.updateOne(
+          //{ orderId: m_payment_id },
+         // { $set: { status: 'paid' } }
+       // );
         await Order.updateOne(
-          { orderId: m_payment_id },
-          { $set: { status: 'paid' } }
+          { _id: orderId },
+          { $set: { status: 'paid', trackingNumber: trackingNumber } }
         );
-  
+    
         // Generate a tracking number for the order
         const trackingNumber = generateTrackingNumber();
   
