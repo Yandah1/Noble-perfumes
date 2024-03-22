@@ -6,6 +6,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
     "express-jwt": "^8.4.1",
+    "install": "^0.13.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.4.0",
     "mongoose": "^8.2.0",
@@ -15,6 +16,7 @@
     "nodemon": "^3.1.0",
     "prettier": "^3.2.5",
     "socket.io": "^4.7.5",
+    "telnet": "^0.0.1",
     "uuid": "^9.0.1"
   },
   "name": "noble-perfume",
