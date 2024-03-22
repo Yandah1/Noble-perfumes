@@ -1,6 +1,8 @@
 const nodemailer = require('nodemailer');
 const dotenv = require("dotenv");
 
+dotenv.config();
+
 // Create a transporter using your email service provider's SMTP settings
 const transporter = nodemailer.createTransport({
   host: "smtpout.secureserver.net",
@@ -8,8 +10,8 @@ const transporter = nodemailer.createTransport({
   service: 'Godaddy',
   port: 587,
   auth: {
-    user: 'process.env.EMAIL_USER',
-    pass: 'process.env.EMAIL_PASS'
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   }
 });
 
@@ -17,7 +19,7 @@ const transporter = nodemailer.createTransport({
 async function sendConfirmationEmail(email, orderTrackingNumber) {
     try {
       const mailOptions = {
-        from: 'process.env.EMAIL_USER',
+        from: process.env.EMAIL_USER,
         to: email,
         subject: 'Payment Confirmation',
         text: `Thank you for your payment! Your payment has been successfully processed. Your order tracking number is: ${orderTrackingNumber}`
@@ -36,7 +38,7 @@ async function sendConfirmationEmail(email, orderTrackingNumber) {
 async function sendNotificationToCustomer(email, message) {
   try {
     const mailOptions = {
-      from: 'process.env.EMAIL_USER',
+      from: process.env.EMAIL_USER,
       to: email,
       subject: 'Payment Notification',
       text: message
