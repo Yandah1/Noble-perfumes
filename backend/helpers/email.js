@@ -3,7 +3,10 @@ const dotenv = require("dotenv");
 
 // Create a transporter using your email service provider's SMTP settings
 const transporter = nodemailer.createTransport({
-  service: 'smtpout.secureserver.net',
+  host: "smtpout.secureserver.net",
+  secureConnection: true,
+  service: 'Godaddy',
+  port: 587,
   auth: {
     user: 'process.env.EMAIL_USER',
     pass: 'process.env.EMAIL_PASS'

@@ -48,7 +48,7 @@ const PayFast: React.FC = () => {
         } catch (error) {
             console.error('Error while processing payment:', error);
             
-            await axios.get(`http://backend.nobleperfumes.store:3000/api/v1/orders/${id}`)
+            await axios.delete(`http://backend.nobleperfumes.store:3000/api/v1/orders/${id}`)
             notification.error({
                 message: 'Payment Error',
                 description: 'There was an error processing your payment. Please try again later.',
