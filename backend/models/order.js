@@ -42,7 +42,7 @@ const orderSchema = mongoose.Schema({
         ref: 'User',
     },
     transactionId: {
-        type : String,
+        type: String,
         required: true,
     },
     dateOrdered: {

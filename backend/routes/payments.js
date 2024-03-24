@@ -36,7 +36,8 @@ router.get('/notify', async (req, res) => {
       res.status(500).json({ error: 'Failed to process notification' });
     }
   });
-  router.post('/notify', async (req, res) => {
+
+router.post('/notify', async (req, res) => {
     try {
       // Extract parameters from the request body
       console.log('Payment notification received:', req.body);
@@ -70,15 +71,11 @@ router.get('/notify', async (req, res) => {
       // Perform necessary operations with the provided data
       if (payment_status === 'completed') {
         // Update the order status to "paid" in your database
-        //await Order.updateOne(
-          //{ orderId: m_payment_id },
-         // { $set: { status: 'paid' } }
-       // );
         await Order.updateOne(
-          { _id: orderId },
-          { $set: { status: 'paid', trackingNumber: trackingNumber } }
+          { orderId: m_payment_id },
+          { $set: { status: 'paid' } }
         );
-    
+        
         // Generate a tracking number for the order
         const trackingNumber = generateTrackingNumber();
   
@@ -89,7 +86,7 @@ router.get('/notify', async (req, res) => {
         );
   
         // Send a notification to the customer
-        await sendNotificationToCustomer(email_address, 'Your payment is successful. Your tracking number is ' + trackingNumber);
+        await sendNotificationToCustomer(email_address, 'Your payment is successful. Your tracking number is ' + m_payment_id);
       }
   
       // Send confirmation email to the buyer
