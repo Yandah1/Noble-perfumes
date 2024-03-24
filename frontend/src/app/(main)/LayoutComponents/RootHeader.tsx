@@ -8,7 +8,7 @@ import { useDispatch, useSelector, } from 'react-redux';
 import { setSearch, setCategory } from '@/redux/slices/searchSlice';
 import { RootState } from '@/redux/store';
 import { usePathname } from 'next/navigation'
-import DrawerComponent from '@/components/Drawer/page';
+import DrawerComponent from '../../../components/Drawer/page';
 
 
 const RootHeader: React.FC = () => {

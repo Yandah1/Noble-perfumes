@@ -1,4 +1,4 @@
-import SearchInput from '@/components/SearchInput/page'
+import SearchInput from '../../../components/SearchInput/page'
 import { setCategory, setSearch } from '@/redux/slices/searchSlice'
 import { RootState } from '@/redux/store';
 import { ShoppingCartOutlined } from '@ant-design/icons';

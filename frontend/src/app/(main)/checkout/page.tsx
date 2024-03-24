@@ -1,5 +1,5 @@
 "use client"
-import StepForm from '@/components/MultiStepsForm/StepForm'
+import StepForm from '../../../components/MultiStepsForm/StepForm'
 import StepsComponent from '@/components/MultiStepsForm/Steps'
 import React from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
