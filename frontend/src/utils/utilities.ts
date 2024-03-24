@@ -64,6 +64,27 @@ export async function handleStatusUpdate(orderId: string, status: string): Promi
     }
 }
 
+export async function getOrderStatus(orderId: string): Promise<any> {
+    try {
+        const data = await client.fetch(
+            groq`
+                *[_type == "order" && order_id == $orderId] {
+                    _id,
+                    order_id,
+                    status
+                }[0]  // Limiting to the first result (if any)
+            `,
+            { orderId } // Parameterized query
+        );
+        return (data);
+    } catch (error) {
+        notification.error({
+            message: `Order get Error: ${error}`,
+            description: 'There was an error getting your order status. No action from you required, the team has been alerted.',
+        });
+    }
+}
+
 // Function to create a new order document
 export async function createOrder(orderId: string, status: string) {
     try {
@@ -92,7 +113,6 @@ export function generateSignature(data: PaymentData, passPhrase: string | null =
 
     for (const key in data) {
         if (data.hasOwnProperty(key)) {
-            console.log(`${key} ${data[key]}`);
             const value = data[key];
 
             if (typeof value === 'string' && value !== '') {

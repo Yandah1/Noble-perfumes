@@ -5,6 +5,10 @@ import Providers, { persistor } from "@/redux/Providers";
 import { ConfigProvider } from "antd";
 import theme from "@/theme/themeConfig";
 import { PersistGate } from "redux-persist/integration/react";
+import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
 
 export default function RootLayout({
   children,
