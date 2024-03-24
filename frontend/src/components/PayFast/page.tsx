@@ -60,7 +60,7 @@ const PayFast: React.FC = () => {
     };
 
     return (
-        <Button loading={isLoading} onClick={handlePaymentButtonClick}>
+        <Button danger type='primary' loading={isLoading} onClick={handlePaymentButtonClick}>
             Pay Now
             <p className='max-w-2xl text-sm text-gray-600'>
               <Image className='leading-10' alt='pay_fast_banner' width={100} height={10} src="/images/PayFast_Logo_OnLightBackground_2.png" />

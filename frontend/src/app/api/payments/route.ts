@@ -4,7 +4,7 @@ import { generateSignature, generateOrderNumber, createOrder } from '@/utils/uti
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
-    const passPhrase: string = "nobleperfumes";
+    const passPhrase: string | undefined = process.env.PASS_PHRASE;
     try {
         const data = await req.json();
 

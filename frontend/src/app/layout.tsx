@@ -5,10 +5,13 @@ import Providers, { persistor } from "@/redux/Providers";
 import { ConfigProvider } from "antd";
 import theme from "@/theme/themeConfig";
 import { PersistGate } from "redux-persist/integration/react";
-import dotenv from 'dotenv';
 
-// Load environment variables from .env file
-dotenv.config();
+import dotenv from 'dotenv';
+const path = require("path");
+
+// Load environment variables from .env.local file
+const envPath = path.resolve(__dirname, ".env.local");
+dotenv.config({ path: envPath });
 
 export default function RootLayout({
   children,
