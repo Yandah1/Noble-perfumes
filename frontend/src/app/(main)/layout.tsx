@@ -1,4 +1,4 @@
-import SloganPage from '@/components/SloganPage/page';
+import SloganPage from '../../components/SloganPage/page';
 import React from 'react'
 import RootHeader from './LayoutComponents/RootHeader';
 import RootFooter from './LayoutComponents/RootFooter';

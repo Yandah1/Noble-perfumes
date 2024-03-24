@@ -3,10 +3,10 @@ import React from 'react';
 import { Badge, Breadcrumb, Button, Flex } from 'antd';
 import { AlignRightOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import Link from 'next/link';
-import SearchInput from '@/components/SearchInput/page';
+import SearchInput from '../../../components/SearchInput/page';
 import { useDispatch, useSelector, } from 'react-redux';
-import { setSearch, setCategory } from '@/redux/slices/searchSlice';
-import { RootState } from '@/redux/store';
+import { setSearch, setCategory } from '../../../redux/slices/searchSlice';
+import { RootState } from '../../../redux/store';
 import { usePathname } from 'next/navigation'
 import DrawerComponent from '../../../components/Drawer/page';
 

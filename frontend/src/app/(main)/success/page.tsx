@@ -4,7 +4,7 @@ import { CheckCircleOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { useRouter } from 'next/navigation'
 import { useDispatch } from 'react-redux';
-import { setCurrentStep } from '@/redux/slices/stepFormSlice';
+import { setCurrentStep } from '../../../redux/slices/stepFormSlice';
 
 const PaymentSuccess = () => {
   const dispatch = useDispatch();
