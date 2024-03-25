@@ -11,6 +11,7 @@ const paymentSchema = new mongoose.Schema({
     name_first: String,
     name_last: String,
     email_address: String,
+    transactionId: String,
     signature: String
 });
 
