@@ -52,7 +52,7 @@ mongoose.connect(process.env.CONNECT_DB, {
   .then(() => {
     console.log('Database connection is ready...');
     // Start the server after successful database connection
-    server.listen(port, () => {
+    app.listen(port, () => {
       console.log('Server is running on http://localhost:3000');
     });
   })
