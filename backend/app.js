@@ -1,4 +1,6 @@
-const express = require("express");
+const https = require('https');
+const fs = require('fs');
+const express = require('express');
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const morgan = require('morgan');
@@ -52,8 +54,14 @@ mongoose.connect(process.env.CONNECT_DB, {
   .then(() => {
     console.log('Database connection is ready...');
     // Start the server after successful database connection
-    app.listen(port, () => {
-      console.log('Server is running on http://localhost:3000');
+    const options = {
+      key: fs.readFileSync('/etc/letsencrypt/live/backend.nobleperfumes.store/privkey.pem'),
+      cert: fs.readFileSync('/etc/letsencrypt/live/backend.nobleperfumes.store/fullchain.pem'),
+    };
+
+    const server = https.createServer(options, app);
+    server.listen(port, () => {
+      console.log('Server is running on https://localhost:3000');
     });
   })
   .catch((err) => {
