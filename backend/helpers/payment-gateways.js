@@ -1,4 +1,4 @@
-import * as crypto from 'crypto';
+const crypto = require('crypto');
 
 function generateSignature(data, passPhrase) {
   // Create parameter string
