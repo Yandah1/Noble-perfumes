@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { generatePayFastUrl } = require('../helpers/payment-gateways'); // Import function to generate PayFast payment URL
+const { generateOrderNumber, generatePayFastUrl } = require('../helpers/payment-gateways'); // Import function to generate PayFast payment URL
 const Payment = require('../models/payment');
 const  Order = require('../models/order'); //recreated
 const { sendConfirmationEmail } = require('../helpers/email');
-const { generateOrderNumber, generatePayFastUrl, generateSignature } = require('../helpers/payment-gateways.js');
-const { v4: uuidv4 } = require('uuid');
 
 // POST Endpoint for Initial Payment Processing
 router.post('/payfast', async (req, res) => {
