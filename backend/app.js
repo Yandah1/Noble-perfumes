@@ -1,10 +1,8 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const mongoose = require("mongoose");
+const express = require('express');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 const morgan = require('morgan');
-const cors = require('cors'); 
-const Product = require("./models/product");
-const jwt = require('jsonwebtoken');
+const cors = require('cors');
 const path = require('path');
 const errorHandler = require('./helpers/error-handler');
 
@@ -17,11 +15,22 @@ app.options('*', cors());
 
 // Middleware Configuration
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan('tiny'));
 app.use(errorHandler);
 
-//Routes
+// Middleware to redirect HTTP to HTTPS
+app.use((req, res, next) => {
+  if (req.secure) {
+    // If the request is already using HTTPS, no redirection is needed
+    next();
+  } else {
+    // Redirect to HTTPS
+    res.redirect(`https://${req.headers.host}${req.url}`);
+  }
+});
+
+// Routes
 const categoriesRoutes = require('./routes/categories');
 const productsRoutes = require('./routes/products');
 const usersRoutes = require('./routes/users');
@@ -44,15 +53,16 @@ app.use(`${api}/orderTracking`, orderTrackingRoutes);
 //app.use(express.static(path.join(__dirname, '../frontend/out')));
 
 // Connect to MongoDB database
-mongoose.connect(process.env.CONNECT_DB, {
+mongoose
+  .connect(process.env.CONNECT_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    dbName: 'noble-perfumes'
+    dbName: 'noble-perfumes',
   })
   .then(() => {
     console.log('Database connection is ready...');
     // Start the server after successful database connection
-    server.listen(port, () => {
+    app.listen(port, () => {
       console.log('Server is running on http://localhost:6000');
     });
   })

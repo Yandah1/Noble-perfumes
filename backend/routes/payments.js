@@ -77,12 +77,12 @@ router.post('/notify', async (req, res) => {
         );
         
         // Generate a tracking number for the order
-        const trackingNumber = generateTrackingNumber();
+        //const trackingNumber = generateTrackingNumber();
   
         // Associate the tracking number with the payment or order
         await Order.updateOne(
           { orderId: m_payment_id },
-          { $set: { trackingNumber: trackingNumber } }
+          //{ $set: { trackingNumber: trackingNumber } }
         );
   
         // Send a notification to the customer
