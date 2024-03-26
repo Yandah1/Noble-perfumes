@@ -55,8 +55,8 @@ mongoose.connect(process.env.CONNECT_DB, {
     console.log('Database connection is ready...');
     // Start the server after successful database connection
     const options = {
-      key: fs.readFileSync('/etc/letsencrypt/live/backend.nobleperfumes.store/privkey.pem'),
-      cert: fs.readFileSync('/etc/letsencrypt/live/backend.nobleperfumes.store/fullchain.pem'),
+      key: fs.readFileSync('/etc//etc/letsencrypt/live/backend.nobleperfumes.store-0001/privkey.pem'),
+      cert: fs.readFileSync('/etc/letsencrypt/live/backend.nobleperfumes.store-0001/fullchain.pem'),
     };
 
     const server = https.createServer(options, app);
