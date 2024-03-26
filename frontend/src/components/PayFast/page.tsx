@@ -39,7 +39,7 @@ const PayFast: React.FC = () => {
                 signature: ''
             };
 
-            const response = await axios.post('/api/payments', orderInfo);
+            const response = await axios.post('https://nobleperfumes.store/api/v1/payments/payfast', orderInfo);
             if(response.status == 200){
                 await createOrder(order?.data._id ?? '', order?.data.status)
                 window.open(response.data.payFastPaymentURL)

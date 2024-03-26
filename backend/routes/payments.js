@@ -4,23 +4,24 @@ const { generatePayFastUrl } = require('../helpers/payment-gateways'); // Import
 const Payment = require('../models/payment');
 const  Order = require('../models/order'); //recreated
 const { sendConfirmationEmail } = require('../helpers/email');
-const { generateTrackingNumber } = require('../helpers/trackingHelpers');
+const { generateOrderNumber, generatePayFastUrl, generateSignature } = require('../helpers/payment-gateways.js');
 const { v4: uuidv4 } = require('uuid');
 
 // POST Endpoint for Initial Payment Processing
 router.post('/payfast', async (req, res) => {
-    try {
-        // Process the initial payment data
-        // Generate PayFast payment URL
-        const orderId = '1234'; // Get orderId from request or generate dynamically
-        const amount = '10.00'; // Get payment amount from request
-        const payFastUrl = generatePayFastUrl(orderId, amount);
 
-        // Respond with PayFast payment URL
-        res.status(200).json({ orderId, payFastUrl });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+  try {
+      const data = req.body;
+      data.item_name = generateOrderNumber();
+
+      // Generate PayFast payment URL
+      const payFastPaymentURL = generatePayFastUrl(data);
+
+      // Respond with PayFast payment URL
+      res.status(200).json({ payFastPaymentURL });
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
 });
 
 router.get('/notify', async (req, res) => {
