@@ -122,9 +122,6 @@ export function generateSignature(data: PaymentData, passPhrase: string | null =
             }
         }
     }
-
-    // Remove last ampersand
-    const getString = pfOutput.slice(0, -1);
     
     if (passPhrase !== null) {
         pfOutput += `passphrase=${encodeURIComponent(passPhrase.trim()).replace(/%20/g, '+')}`;
