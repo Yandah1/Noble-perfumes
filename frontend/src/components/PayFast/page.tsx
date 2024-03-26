@@ -28,7 +28,7 @@ const PayFast: React.FC = () => {
             const orderInfo = {
                 merchant_id: "10032903",
                 merchant_key: "runrf7hq41f3s",
-                return_url: `http://localhost:3000/success?transaction_id=${order?.data._id}`,
+                return_url: `http://nobleperfumes.store/success?transaction_id=${order?.data._id}`,
                 cancel_url: "http://nobleperfumes.store",
                 notify_url: "http://backend.nobleperfumes.store:3000/api/v1/payments/notify",
                 name_first: formData.fullname,
