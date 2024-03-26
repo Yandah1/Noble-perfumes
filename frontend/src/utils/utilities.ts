@@ -23,7 +23,7 @@ export async function placeOrder(cart: any, formData: any) {
             phone: formData.phone,
             email: formData.email
         },
-        transactionId: "",
+        transactionId: formData.email,
         status: "Awaiting Payment"
     }
 

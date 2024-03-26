@@ -16,9 +16,9 @@ router.post('/payfast', async (req, res) => {
       const payFastPaymentURL = generatePayFastUrl(data);
 
       // Respond with PayFast payment URL
-      res.status(200).json({ payFastPaymentURL });
+      return res.status(200).json({ payFastPaymentURL });
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
