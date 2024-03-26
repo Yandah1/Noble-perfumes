@@ -1,3 +1,5 @@
+import * as crypto from 'crypto';
+
 function generateSignature(data, passPhrase) {
   // Create parameter string
   let pfOutput = '';
