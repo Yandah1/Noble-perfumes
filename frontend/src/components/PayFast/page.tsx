@@ -13,11 +13,9 @@ const PayFast: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handlePaymentButtonClick = async () => {
-        let id = '';
         try {
             setIsLoading(true);
             const order = await placeOrder(cart, formData);
-            id = order?.data._id;
             
             // Calculate total price
             const total = cart.items.reduce((acc: number, item: any) => {
@@ -46,16 +44,12 @@ const PayFast: React.FC = () => {
             }
 
         } catch (error) {
-            console.error('Error while processing payment:', error);
-            
-            await axios.delete(`https://nobleperfumes.store/api/v1/orders/${id}`)
             notification.error({
                 message: 'Payment Error',
                 description: 'There was an error processing your payment. Please try again later.',
             });
         } finally {
             setIsLoading(false);
-            
         }
     };
 
