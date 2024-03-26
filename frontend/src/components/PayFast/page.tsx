@@ -28,9 +28,9 @@ const PayFast: React.FC = () => {
             const orderInfo = {
                 merchant_id: "10032903",
                 merchant_key: "runrf7hq41f3s",
-                return_url: `http://nobleperfumes.store/success?transaction_id=${order?.data._id}`,
-                cancel_url: "http://nobleperfumes.store",
-                notify_url: "http://nobleperfumes.store/api/v1/payments/notify",
+                return_url: `https://nobleperfumes.store/success?transaction_id=${order?.data._id}`,
+                cancel_url: "https://nobleperfumes.store",
+                notify_url: "https://nobleperfumes.store/api/v1/payments/notify",
                 name_first: formData.fullname,
                 email_address: formData.email,
                 item_name: generateOrderNumber(),
@@ -48,7 +48,7 @@ const PayFast: React.FC = () => {
         } catch (error) {
             console.error('Error while processing payment:', error);
             
-            await axios.delete(`http://nobleperfumes.store/api/v1/orders/${id}`)
+            await axios.delete(`https://nobleperfumes.store/api/v1/orders/${id}`)
             notification.error({
                 message: 'Payment Error',
                 description: 'There was an error processing your payment. Please try again later.',
