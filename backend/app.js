@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('tiny'));
 app.use(errorHandler);
 
-// Middleware to redirect HTTP to HTTPS
+/* Middleware to redirect HTTP to HTTPS
 app.use((req, res, next) => {
   if (req.secure) {
     // If the request is already using HTTPS, no redirection is needed
@@ -28,7 +28,7 @@ app.use((req, res, next) => {
     // Redirect to HTTPS
     res.redirect(`https://${req.headers.host}${req.url}`);
   }
-});
+});*/
 
 // Routes
 const categoriesRoutes = require('./routes/categories');
