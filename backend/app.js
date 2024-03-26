@@ -10,7 +10,7 @@ const errorHandler = require('./helpers/error-handler');
 
 // Create Express app
 const app = express();
-const port = 3000;
+const port = 6000;
 
 app.use(cors());
 app.options('*', cors());
@@ -41,7 +41,7 @@ app.use(`${api}/payments`, paymentsRoutes);
 app.use(`${api}/orderTracking`, orderTrackingRoutes);
 
 // Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, '../frontend/out')));
+//app.use(express.static(path.join(__dirname, '../frontend/out')));
 
 // Connect to MongoDB database
 mongoose.connect(process.env.CONNECT_DB, {
@@ -53,7 +53,7 @@ mongoose.connect(process.env.CONNECT_DB, {
     console.log('Database connection is ready...');
     // Start the server after successful database connection
     server.listen(port, () => {
-      console.log('Server is running on http://localhost:3000');
+      console.log('Server is running on http://localhost:6000');
     });
   })
   .catch((err) => {
