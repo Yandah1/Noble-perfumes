@@ -31,7 +31,7 @@ export default function CheckOrdersPage() {
     const fetchData = async () => {
       try {
         if (orderId) {
-          const response = await axios.get(`http://backend.nobleperfumes.store:3000/api/v1/orders/${orderId}`);
+          const response = await axios.get(`http://nobleperfumes.store/api/v1/orders/${orderId}`);
           let ord = await getOrderStatus(orderId)
           setOrder(ord)
           setResults(response.data);
