@@ -28,12 +28,13 @@ export async function placeOrder(cart: any, formData: any) {
     }
 
     try {
+        console.log(data)
         // Make POST request to /order endpoint with the required data
         return await axios.post('https://nobleperfumes.store/api/v1/orders', data);
     } catch (error) {
         notification.error({
             message: 'Order Placement Error',
-            description: 'There was an error processing your payment. Please try again later.' + error,
+            description: 'There was an error processing your payment. Please try again later.',
         });
     }
 };

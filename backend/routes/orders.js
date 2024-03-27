@@ -78,7 +78,6 @@ router.put('/:id', async (req, res) => {
       phone: updatedOrder.phone,
       status: updatedOrder.status,
       totalPrice: updatedOrder.totalPrice,
-      //user: updatedOrder.user
       user: JSON.stringify(updatedOrder.user)
     };
   
